@@ -8,10 +8,10 @@
  * Original Binn Library for C++ - https://github.com/liteserver/binn
  * 
  *
- * @author		Nikita Kuznetsov (NiK)
- * @copyright	Copyright (c) 2016, Nikita Kuznetsov (nikita.hldm@gmail.com)
- * @license		GNU GPL
- * @link		http://www.gameap.ru
+ * @author      Nikita Kuznetsov (NiK)
+ * @copyright   Copyright (c) 2016, Nikita Kuznetsov (nikita.hldm@gmail.com)
+ * @license     GNU GPL
+ * @link        http://www.gameap.ru
  *
  */
 class Binn {
