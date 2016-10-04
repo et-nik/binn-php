@@ -58,15 +58,61 @@ define("INT64_MIN",     -9223372036854775808);
 define("INT64_MAX",     9223372036854775807);
 
 class Binn {
-    protected $binn_type;
     
+    /**
+     * Binn object type: BINN_LIST, BINN_MAP, BINN_OBJECT
+     *
+     * @var int $binn_type
+     * @access protected
+     */
+    protected $binn_type;
+
+    /**
+     * Count elements in object
+     * 
+     * @var int
+     * @access protected
+     */
     protected $count        = 0;
+
+    /**
+     * Data size in bytes
+     * 
+     * @var int
+     * @access protected
+     */
     protected $data_size    = 0;
+
+    /**
+     * Size bin string in bytes
+     * 
+     * @var int
+     * @access protected
+     */
     protected $size         = 0;
+
+    /**
+     * Bin string
+     * 
+     * @var string
+     * @access protected
+     */
     protected $binn_obj     = "";
 
+    /**
+     * Sub binn objects
+     * 
+     * @var string
+     * @access private
+     */
     private $sub_objects;
 
+    /**
+     * Object elements
+     * 
+     * @var array
+     * @access protected
+     */
     protected $binn_arr = [];
 
     // -----------------------------------------------------------------
