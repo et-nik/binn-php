@@ -2,7 +2,7 @@
 
 set_time_limit(0);
 
-include "../binn.php";
+include "../Binn.php";
 
 $write = new Binn();
 

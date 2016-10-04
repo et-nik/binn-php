@@ -1,6 +1,6 @@
 <?php
 
-include "../binn.php";
+include "../Binn.php";
 
 // Write
 
