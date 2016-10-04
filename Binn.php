@@ -14,53 +14,54 @@
  * @link		http://www.gameap.ru
  *
  */
-define("BINN_LIST",     0xE0);
-define("BINN_MAP",      0xE1);
-define("BINN_OBJECT",   0xE2);
-
-define("BINN_UINT8",    0x20);
-define("BINN_INT8",     0x21);
-define("BINN_UINT16",   0x40);
-define("BINN_INT16",    0x41);
-define("BINN_UINT32",   0x60);
-define("BINN_INT32",    0x61);
-define("BINN_UINT64",   0x80);
-define("BINN_INT64",    0x81);
-define("BINN_STRING",   0xA0);
-
-define("BINN_BOOL",     0x80061);
-
-define("BINN_STORAGE_NOBYTES",      0x00);
-define("BINN_STORAGE_BYTE",         0x20);  //  8 bits
-define("BINN_STORAGE_WORD",         0x40);  // 16 bits -- the endianess (byte order) is automatically corrected
-define("BINN_STORAGE_DWORD",        0x60);  // 32 bits -- the endianess (byte order) is automatically corrected
-define("BINN_STORAGE_QWORD",        0x80);  // 64 bits -- the endianess (byte order) is automatically corrected
-define("BINN_STORAGE_STRING",       0xA0);  // Are stored with null termination
-define("BINN_STORAGE_BLOB",         0xC0);
-define("BINN_STORAGE_CONTAINER",    0xE0);
-
-define("BINN_NULL",      0x00);
-define("BINN_TRUE",      0x01);
-define("BINN_FALSE",     0x02);
-
-define("UINT8_MAX",     255);
-define("UINT16_MAX",    65535);
-define("UINT32_MAX",    4294967295);
-define("UINT64_MAX",    18446744073709551615);
-
-define("INT8_MIN",      -128);
-define("INT8_MAX",      127);
-define("INT16_MIN",     -32768);
-define("INT16_MAX",     32767);
-define("INT32_MIN",     -2147483648);
-define("INT32_MAX",     2147483647);
-define("INT64_MIN",     -9223372036854775808);
-define("INT64_MAX",     9223372036854775807);
-
 class Binn {
+
+    const BINN_LIST         = 0xE0;
+    const BINN_MAP          = 0xE1;
+    const BINN_OBJECT       = 0xE2;
+
+    const BINN_UINT8        = 0x20;
+    const BINN_INT8         = 0x21;
+    const BINN_UINT16       = 0x40;
+    const BINN_INT16        = 0x41;
+    const BINN_UINT32       = 0x60;
+    const BINN_INT32        = 0x61;
+    const BINN_UINT64       = 0x80;
+    const BINN_INT64        = 0x81;
+    const BINN_STRING       = 0xA0;
+
+    const BINN_BOOL         = 0x80061;
+
+    const BINN_STORAGE_NOBYTES      = 0x00;
+    const BINN_STORAGE_BYTE         = 0x20;  //  8 bits
+    const BINN_STORAGE_WORD         = 0x40;  // 16 bits -- the endianess (byte order) is automatically corrected
+    const BINN_STORAGE_DWORD        = 0x60;  // 32 bits -- the endianess (byte order) is automatically corrected
+    const BINN_STORAGE_QWORD        = 0x80;  // 64 bits -- the endianess (byte order) is automatically corrected
+    const BINN_STORAGE_STRING       = 0xA0;  // Are stored with null termination
+    const BINN_STORAGE_BLOB         = 0xC0;
+    const BINN_STORAGE_CONTAINER    = 0xE0;
+
+    const BINN_NULL                 = 0x00;
+    const BINN_TRUE                 = 0x01;
+    const BINN_FALSE                = 0x02;
+
+    const UINT8_MAX                 = 255;
+    const UINT16_MAX                = 65535;
+    const UINT32_MAX                = 4294967295;
+    const UINT64_MAX                = 18446744073709551615;
+
+    const INT8_MIN                  = -128;
+    const INT8_MAX                  = 127;
+    const INT16_MIN                 = -32768;
+    const INT16_MAX                 = 32767;
+    const INT32_MIN                 = -2147483648;
+    const INT32_MAX                 = 2147483647;
+    const INT64_MIN                 = -9223372036854775808;
+    const INT64_MAX                 = 9223372036854775807;
+
     
     /**
-     * Binn object type: BINN_LIST, BINN_MAP, BINN_OBJECT
+     * Binn object type: self::BINN_LIST, self::BINN_MAP, self::BINN_OBJECT
      *
      * @var int $binn_type
      * @access protected
@@ -131,44 +132,44 @@ class Binn {
         if ($val >= 0) {
             // Convert to unsigned
             switch ($type) {
-                case BINN_INT64:
-                    $type = BINN_UINT64;
+                case self::BINN_INT64:
+                    $type = self::BINN_UINT64;
                     break;
 
-                case BINN_INT32:
-                    $type = BINN_UINT32;
+                case self::BINN_INT32:
+                    $type = self::BINN_UINT32;
                     break;
 
-                case BINN_INT16:
-                    $type = BINN_UINT16;
+                case self::BINN_INT16:
+                    $type = self::BINN_UINT16;
                     break;
             }
         }
         
-        if (in_array($type, [BINN_INT64, BINN_INT32, BINN_INT16])) {
+        if (in_array($type, [self::BINN_INT64, self::BINN_INT32, self::BINN_INT16])) {
             // Signed
-            if ($val >= INT8_MIN) {
-                $type2 = BINN_INT8;
+            if ($val >= self::INT8_MIN) {
+                $type2 = self::BINN_INT8;
             }
-            elseif ($val >= INT16_MIN) {
-                $type2 = BINN_INT16;
+            elseif ($val >= self::INT16_MIN) {
+                $type2 = self::BINN_INT16;
             }
-            elseif ($val >= INT32_MIN) {
-                $type2 = BINN_INT32;
+            elseif ($val >= self::INT32_MIN) {
+                $type2 = self::BINN_INT32;
             }
         }
 
-        if (in_array($type, [BINN_UINT64, BINN_UINT32, BINN_UINT16])) {
+        if (in_array($type, [self::BINN_UINT64, self::BINN_UINT32, self::BINN_UINT16])) {
             // Unsigned
 
-            if ($val <= UINT8_MAX) {
-                $type2 = BINN_UINT8;
+            if ($val <= self::UINT8_MAX) {
+                $type2 = self::BINN_UINT8;
             }
-            elseif ($val <= UINT16_MAX) {
-                $type2 = BINN_UINT16;
+            elseif ($val <= self::UINT16_MAX) {
+                $type2 = self::BINN_UINT16;
             }
-            elseif ($val <= UINT32_MAX) {
-                $type2 = BINN_UINT32;
+            elseif ($val <= self::UINT32_MAX) {
+                $type2 = self::BINN_UINT32;
             }
         }
 
@@ -179,7 +180,7 @@ class Binn {
 
     public function binn_free()
     {
-        $this->binn_type = BINN_STORAGE_NOBYTES;
+        $this->binn_type = self::BINN_STORAGE_NOBYTES;
     
         $this->count        = 0;
         $this->data_size    = 0;
@@ -243,7 +244,7 @@ class Binn {
 
         // Data size
         foreach ($this->binn_arr as &$arr) {
-            if ($arr[0] == BINN_STRING) {
+            if ($arr[0] == self::BINN_STRING) {
                 $size += $arr[2] <= 127 ? $arr[2]+2 : $arr[2]+5; // Size Byte + NULL Byte
             }
             else {
@@ -264,55 +265,55 @@ class Binn {
     private function _add_val($type, $value)
     {
         if (in_array($type,
-                [BINN_INT64, BINN_INT32, BINN_INT16,
-                BINN_UINT64,BINN_UINT32, BINN_UINT16])
+                [self::BINN_INT64, self::BINN_INT32, self::BINN_INT16,
+                self::BINN_UINT64,self::BINN_UINT32, self::BINN_UINT16])
         ){
             $type = $this->compress_int($type, $value);
         }
 
         // Size
         switch ($type) {
-            case BINN_BOOL:
+            case self::BINN_BOOL:
                 $size = 1;
                 break;
                 
-            case BINN_UINT8:
+            case self::BINN_UINT8:
                 $size = 1;
                 break;
                 
-            case BINN_UINT16:
+            case self::BINN_UINT16:
                 $size = 2;
                 break;
                 
-            case BINN_UINT32:
+            case self::BINN_UINT32:
                 $size = 4;
                 break;
                 
-            case BINN_UINT64:
+            case self::BINN_UINT64:
                 $size = 8;
                 break;
                 
-            case BINN_INT8:
+            case self::BINN_INT8:
                 $size = 1;
                 break;
                 
-            case BINN_INT16:
+            case self::BINN_INT16:
                 $size = 2;
                 break;
                 
-            case BINN_INT32:
+            case self::BINN_INT32:
                 $size = 4;
                 break;
                 
-            case BINN_INT64:
+            case self::BINN_INT64:
                 $size = 8;
                 break;
                 
-            case BINN_STRING:
+            case self::BINN_STRING:
                 $size = strlen($value);
                 break;
 
-            case BINN_LIST:
+            case self::BINN_LIST:
                 $size = $value->binn_size();
                 break;
         }
@@ -334,22 +335,22 @@ class Binn {
 
         foreach ($this->binn_arr as &$arr) {
             switch ($arr[0]) {
-                case BINN_LIST:
+                case self::BINN_LIST:
                     $return[] = $arr[1]->get_binn_arr();
                     break;
 
-                case BINN_BOOL:
-                case BINN_TRUE:
-                case BINN_FALSE:
-                case BINN_INT64:
-                case BINN_UINT64:
-                case BINN_INT32:
-                case BINN_UINT32:
-                case BINN_INT16:
-                case BINN_UINT16:
-                case BINN_INT8:
-                case BINN_UINT8:
-                case BINN_STRING:
+                case self::BINN_BOOL:
+                case self::BINN_TRUE:
+                case self::BINN_FALSE:
+                case self::BINN_INT64:
+                case self::BINN_UINT64:
+                case self::BINN_INT32:
+                case self::BINN_UINT32:
+                case self::BINN_INT16:
+                case self::BINN_UINT16:
+                case self::BINN_INT8:
+                case self::BINN_UINT8:
+                case self::BINN_STRING:
                     $return[] = $arr[1];
                     break;
             }
@@ -405,60 +406,60 @@ class Binn {
 
         foreach ($this->binn_arr as &$arr) {
             switch ($arr[0]) {
-                case BINN_BOOL:
-                    $this->binn_obj .= $arr[1] ? pack("C", BINN_TRUE) : pack("C", BINN_FALSE);
+                case self::BINN_BOOL:
+                    $this->binn_obj .= $arr[1] ? pack("C", self::BINN_TRUE) : pack("C", self::BINN_FALSE);
                     break;
                     
-                case BINN_TRUE:
-                    $this->binn_obj .= pack("C", BINN_TRUE);
+                case self::BINN_TRUE:
+                    $this->binn_obj .= pack("C", self::BINN_TRUE);
                     break;
                     
-                case BINN_FALSE:
-                    $this->binn_obj .= pack("C", BINN_FALSE);
+                case self::BINN_FALSE:
+                    $this->binn_obj .= pack("C", self::BINN_FALSE);
                     break;
                     
-                case BINN_UINT8:
-                    $this->binn_obj .= pack("C", BINN_UINT8);
+                case self::BINN_UINT8:
+                    $this->binn_obj .= pack("C", self::BINN_UINT8);
                     $this->binn_obj .= pack("C", $arr[1]);
                     break;
                     
-                case BINN_UINT16:
-                    $this->binn_obj .= pack("C", BINN_UINT16);
+                case self::BINN_UINT16:
+                    $this->binn_obj .= pack("C", self::BINN_UINT16);
                     $this->binn_obj .= pack("n", $arr[1]);
                     break;
                     
-                case BINN_UINT32:
-                    $this->binn_obj .= pack("C", BINN_UINT32);
+                case self::BINN_UINT32:
+                    $this->binn_obj .= pack("C", self::BINN_UINT32);
                     $this->binn_obj .= pack("N", $arr[1]);
                     break;
                     
-                case BINN_UINT64:
-                    $this->binn_obj .= pack("C", BINN_UINT64);
+                case self::BINN_UINT64:
+                    $this->binn_obj .= pack("C", self::BINN_UINT64);
                     $this->binn_obj .= pack("J", $arr[1]);
                     break;
 
-                case BINN_INT8:
-                    $this->binn_obj .= pack("C", BINN_UINT8);
+                case self::BINN_INT8:
+                    $this->binn_obj .= pack("C", self::BINN_UINT8);
                     $this->binn_obj .= pack("C", $arr[1]);
                     break;
                     
-                case BINN_INT16:
-                    $this->binn_obj .= pack("C", BINN_INT16);
+                case self::BINN_INT16:
+                    $this->binn_obj .= pack("C", self::BINN_INT16);
                     $this->binn_obj .= pack("s", $arr[1]);
                     break;
                     
-                case BINN_INT32:
-                    $this->binn_obj .= pack("C", BINN_INT32);
+                case self::BINN_INT32:
+                    $this->binn_obj .= pack("C", self::BINN_INT32);
                     $this->binn_obj .= pack("l", $arr[1]);
                     break;
                     
-                case BINN_INT64:
-                    $this->binn_obj .= pack("C", BINN_INT64);
+                case self::BINN_INT64:
+                    $this->binn_obj .= pack("C", self::BINN_INT64);
                     $this->binn_obj .= pack("q", $arr[1]);
                     break;
 
-                case BINN_STRING:
-                    $this->binn_obj .= pack("C", BINN_STRING);
+                case self::BINN_STRING:
+                    $this->binn_obj .= pack("C", self::BINN_STRING);
 
                     if ($arr[2] <= 127) {
                         $this->binn_obj .= pack("C", $arr[2]);
@@ -484,47 +485,47 @@ class Binn {
     {
         switch ($name) {
             case "add_bool":
-                self::_add_val(BINN_BOOL, $arguments[0]);
+                self::_add_val(self::BINN_BOOL, $arguments[0]);
                 break;
                 
             case "add_uint8":
-                self::_add_val(BINN_UINT8, $arguments[0]);
+                self::_add_val(self::BINN_UINT8, $arguments[0]);
                 break;
                 
             case "add_uint16":
-                self::_add_val(BINN_UINT16, $arguments[0]);
+                self::_add_val(self::BINN_UINT16, $arguments[0]);
                 break;
                 
             case "add_uint32":
-                self::_add_val(BINN_UINT32, $arguments[0]);
+                self::_add_val(self::BINN_UINT32, $arguments[0]);
                 break;
                 
             case "add_uint64":
-                self::_add_val(BINN_UINT64, $arguments[0]);
+                self::_add_val(self::BINN_UINT64, $arguments[0]);
                 break;
                 
             case "add_int8":
-                self::_add_val(BINN_INT8, $arguments[0]);
+                self::_add_val(self::BINN_INT8, $arguments[0]);
                 break;
 
             case "add_int16":
-                self::_add_val(BINN_INT16, $arguments[0]);
+                self::_add_val(self::BINN_INT16, $arguments[0]);
                 break;
 
             case "add_int32":
-                self::_add_val(BINN_INT32, $arguments[0]);
+                self::_add_val(self::BINN_INT32, $arguments[0]);
                 break;
 
             case "add_int64":
-                self::_add_val(BINN_INT64, $arguments[0]);
+                self::_add_val(self::BINN_INT64, $arguments[0]);
                 break;
 
             case "add_str":
-                self::_add_val(BINN_STRING, $arguments[0]);
+                self::_add_val(self::BINN_STRING, $arguments[0]);
                 break;
 
             case "add_list":
-                self::_add_val(BINN_LIST, $arguments[0]);
+                self::_add_val(self::BINN_LIST, $arguments[0]);
                 break;
                 
             default:
@@ -537,7 +538,7 @@ class Binn {
 
     public function binn_list()
     {
-        $this->binn_type = BINN_LIST;
+        $this->binn_type = self::BINN_LIST;
     }
 
     // -----------------------------------------------------------------
@@ -586,40 +587,40 @@ class Binn {
             // $cur_type = strtotime(base_convert($byte_var_type, 10, 16));
 
             switch ($byte_var_type) {
-                case BINN_TRUE:
-                    self::_add_val(BINN_BOOL, true);
+                case self::BINN_TRUE:
+                    self::_add_val(self::BINN_BOOL, true);
                     break;
                     
-                case BINN_FALSE:
-                    self::_add_val(BINN_BOOL, false);
+                case self::BINN_FALSE:
+                    self::_add_val(self::BINN_BOOL, false);
                     break;
                     
-                case BINN_UINT64:
-                    self::_add_val(BINN_UINT64, unpack("J", substr($binstring, $pos, 8))[1]);
+                case self::BINN_UINT64:
+                    self::_add_val(self::BINN_UINT64, unpack("J", substr($binstring, $pos, 8))[1]);
                     $pos += 8;
                     break;
 
-                case BINN_UINT32:
-                    self::_add_val(BINN_UINT32, unpack("N", substr($binstring, $pos, 4))[1]);
+                case self::BINN_UINT32:
+                    self::_add_val(self::BINN_UINT32, unpack("N", substr($binstring, $pos, 4))[1]);
                     $pos += 4;
                     break;
                     
-                case BINN_UINT16:
-                    self::_add_val(BINN_UINT16, unpack("n", substr($binstring, $pos, 2))[1]);
+                case self::BINN_UINT16:
+                    self::_add_val(self::BINN_UINT16, unpack("n", substr($binstring, $pos, 2))[1]);
                     $pos += 2;
                     break;
                     
-                case BINN_UINT8:
-                    self::_add_val(BINN_UINT8, unpack("C", substr($binstring, $pos, 1))[1]);
+                case self::BINN_UINT8:
+                    self::_add_val(self::BINN_UINT8, unpack("C", substr($binstring, $pos, 1))[1]);
                     $pos += 1;
                     break;
 
-                case BINN_INT8:
-                    self::_add_val(BINN_INT8, unpack("c", substr($binstring, $pos, 1))[1]);
+                case self::BINN_INT8:
+                    self::_add_val(self::BINN_INT8, unpack("c", substr($binstring, $pos, 1))[1]);
                     $pos += 1;
                     break;
 
-                case BINN_STRING:
+                case self::BINN_STRING:
                     $string_size = unpack("C", $binstring[$pos])[1];
 
                     // Size
@@ -631,12 +632,12 @@ class Binn {
                         $pos += 1;
                      }
 
-                    self::_add_val(BINN_STRING, unpack("a*", substr($binstring, $pos, $string_size))[1]);
+                    self::_add_val(self::BINN_STRING, unpack("a*", substr($binstring, $pos, $string_size))[1]);
                     $pos += $string_size;
                     $pos += 1; // Null byte
                     break;
                 
-                case BINN_LIST:
+                case self::BINN_LIST:
                     $list_size = unpack("C", $binstring[$pos])[1];
                     
                     // Size
@@ -652,7 +653,7 @@ class Binn {
                     $sub_objects[] = new Binn;
                     $sub_objects[count($sub_objects)-1]->binn_open($new);
 
-                    self::_add_val(BINN_LIST, $sub_objects[count($sub_objects)-1]);
+                    self::_add_val(self::BINN_LIST, $sub_objects[count($sub_objects)-1]);
 
                     $pos += ($list_size-1);
 
