@@ -1,0 +1,15 @@
+{
+    "name": "knik/binn",
+    "description": "Serialize to binary string.",
+    "keywords": ["serialize", "bin"],
+    "homepage": "https://github.com/ET-NiK/binn-php",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nikita Kuznetsov",
+            "email": "nikita.hldm@gmail.com",
+            "homepage": "https://github.com/ET-NiK"
+        }
+    ]
+}
