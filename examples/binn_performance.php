@@ -4,6 +4,8 @@ set_time_limit(0);
 
 include "../Binn.php";
 
+use knik\Binn;
+
 $write = new Binn();
 
 $write->add_str("C++ (pronounced as cee plus plus, /ˈsiː plʌs plʌs/) is a general-purpose programming language.");

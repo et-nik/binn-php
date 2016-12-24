@@ -14,6 +14,9 @@
  * @link        http://www.gameap.ru
  *
  */
+
+namespace knik;
+
 class Binn {
 
     const BINN_LIST         = 0xE0;

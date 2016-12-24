@@ -4,6 +4,8 @@ set_time_limit(0);
 
 include "../Binn.php";
 
+use knik\Binn;
+
 $write = new Binn();
 
 $write->add_str("You may have noticed that not all the lines of this program perform actions when the code is executed. There is a line containing a comment (beginning with //). There is a line with a directive for the preprocessor (beginning with #). There is a line that defines a function (in this case, the main function). And, finally, a line with a statements ending with a semicolon (the insertion into cout), which was within the block delimited by the braces ( { } ) of the main function. 

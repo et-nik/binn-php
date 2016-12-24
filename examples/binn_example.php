@@ -2,6 +2,8 @@
 
 include "../Binn.php";
 
+use knik\Binn;
+
 // Write
 
 $write = new Binn();
