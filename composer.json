@@ -11,5 +11,13 @@
             "email": "nikita.hldm@gmail.com",
             "homepage": "https://github.com/ET-NiK"
         }
-    ]
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "knik\\": ""
+        }
+    }
 }
