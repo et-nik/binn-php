@@ -1,9 +1,8 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
 use knik\Binn;
 
-class BinnTest extends TestCase
+class BinnTest extends PHPUnit_Framework_TestCase
 {
     public function testListInt()
     {
