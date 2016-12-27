@@ -446,22 +446,22 @@ class Binn {
 
                 case self::BINN_INT8:
                     $this->binn_obj .= pack("C", self::BINN_UINT8);
-                    $this->binn_obj .= pack("C", $arr[1]);
+                    $this->binn_obj .= pack("c", $arr[1]);
                     break;
                     
                 case self::BINN_INT16:
                     $this->binn_obj .= pack("C", self::BINN_INT16);
-                    $this->binn_obj .= pack("s", $arr[1]);
+                    $this->binn_obj .= strrev(pack("s", $arr[1]));
                     break;
                     
                 case self::BINN_INT32:
                     $this->binn_obj .= pack("C", self::BINN_INT32);
-                    $this->binn_obj .= pack("l", $arr[1]);
+                    $this->binn_obj .= strrev(pack("l", $arr[1]));
                     break;
                     
                 case self::BINN_INT64:
                     $this->binn_obj .= pack("C", self::BINN_INT64);
-                    $this->binn_obj .= pack("q", $arr[1]);
+                    $this->binn_obj .= strrev(pack("q", $arr[1]));
                     break;
 
                 case self::BINN_STRING:
@@ -627,6 +627,21 @@ class Binn {
                 case self::BINN_INT8:
                     $this->_add_val(self::BINN_INT8, unpack("c", substr($binstring, $pos, 1))[1]);
                     $pos += 1;
+                    break;
+
+                case self::BINN_INT16:
+                    $this->_add_val(self::BINN_INT16, unpack("s", strrev(substr($binstring, $pos, 2)))[1]);
+                    $pos += 2;
+                    break;
+
+                case self::BINN_INT32:
+                    $this->_add_val(self::BINN_INT16, unpack("i", strrev(substr($binstring, $pos, 4)))[1]);
+                    $pos += 4;
+                    break;
+
+                case self::BINN_INT64:
+                    $this->_add_val(self::BINN_INT16, unpack("q", strrev(substr($binstring, $pos, 8)))[1]);
+                    $pos += 8;
                     break;
 
                 case self::BINN_STRING:
