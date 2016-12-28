@@ -125,7 +125,7 @@ class Binn {
      * @var string
      * @access protected
      */
-    protected $binn_obj     = "";
+    protected $binn_string     = "";
 
     /**
      * Object elements
@@ -215,7 +215,7 @@ class Binn {
         $this->count        = 0;
         $this->data_size    = 0;
         $this->size         = 0;
-        $this->binn_obj     = "";
+        $this->binn_string     = "";
 
         $this->sub_objects  = [];
         $this->binn_arr     = [];
@@ -421,90 +421,90 @@ class Binn {
     {
         $this->_calculate_size();
         
-        $this->binn_obj .= pack("C", $this->binn_type);
+        $this->binn_string .= pack("C", $this->binn_type);
         
-        $this->binn_obj .= ($this->size <= 127)
+        $this->binn_string .= ($this->size <= 127)
             ? pack("C", $this->size)
             : $this->_get_int32_binsize($this->size);
 
         $count = count($this->binn_arr);
-        $this->binn_obj .= ($count <= 127)
+        $this->binn_string .= ($count <= 127)
             ? pack("C", $count)
             : $this->_get_int32_binsize($count);
 
         foreach ($this->binn_arr as &$arr) {
             switch ($arr[self::KEY_TYPE]) {
                 case self::BINN_BOOL:
-                    $this->binn_obj .= $arr[self::KEY_VAL] ? pack("C", self::BINN_TRUE) : pack("C", self::BINN_FALSE);
+                    $this->binn_string .= $arr[self::KEY_VAL] ? pack("C", self::BINN_TRUE) : pack("C", self::BINN_FALSE);
                     break;
                     
                 case self::BINN_TRUE:
-                    $this->binn_obj .= pack("C", self::BINN_TRUE);
+                    $this->binn_string .= pack("C", self::BINN_TRUE);
                     break;
                     
                 case self::BINN_FALSE:
-                    $this->binn_obj .= pack("C", self::BINN_FALSE);
+                    $this->binn_string .= pack("C", self::BINN_FALSE);
                     break;
                     
                 case self::BINN_UINT8:
-                    $this->binn_obj .= pack("C", self::BINN_UINT8);
-                    $this->binn_obj .= pack("C", $arr[self::KEY_VAL]);
+                    $this->binn_string .= pack("C", self::BINN_UINT8);
+                    $this->binn_string .= pack("C", $arr[self::KEY_VAL]);
                     break;
                     
                 case self::BINN_UINT16:
-                    $this->binn_obj .= pack("C", self::BINN_UINT16);
-                    $this->binn_obj .= pack("n", $arr[self::KEY_VAL]);
+                    $this->binn_string .= pack("C", self::BINN_UINT16);
+                    $this->binn_string .= pack("n", $arr[self::KEY_VAL]);
                     break;
                     
                 case self::BINN_UINT32:
-                    $this->binn_obj .= pack("C", self::BINN_UINT32);
-                    $this->binn_obj .= pack("N", $arr[self::KEY_VAL]);
+                    $this->binn_string .= pack("C", self::BINN_UINT32);
+                    $this->binn_string .= pack("N", $arr[self::KEY_VAL]);
                     break;
                     
                 case self::BINN_UINT64:
-                    $this->binn_obj .= pack("C", self::BINN_UINT64);
-                    $this->binn_obj .= pack("J", $arr[self::KEY_VAL]);
+                    $this->binn_string .= pack("C", self::BINN_UINT64);
+                    $this->binn_string .= pack("J", $arr[self::KEY_VAL]);
                     break;
 
                 case self::BINN_INT8:
-                    $this->binn_obj .= pack("C", self::BINN_UINT8);
-                    $this->binn_obj .= pack("c", $arr[self::KEY_VAL]);
+                    $this->binn_string .= pack("C", self::BINN_UINT8);
+                    $this->binn_string .= pack("c", $arr[self::KEY_VAL]);
                     break;
                     
                 case self::BINN_INT16:
-                    $this->binn_obj .= pack("C", self::BINN_INT16);
-                    $this->binn_obj .= strrev(pack("s", $arr[self::KEY_VAL]));
+                    $this->binn_string .= pack("C", self::BINN_INT16);
+                    $this->binn_string .= strrev(pack("s", $arr[self::KEY_VAL]));
                     break;
                     
                 case self::BINN_INT32:
-                    $this->binn_obj .= pack("C", self::BINN_INT32);
-                    $this->binn_obj .= strrev(pack("l", $arr[self::KEY_VAL]));
+                    $this->binn_string .= pack("C", self::BINN_INT32);
+                    $this->binn_string .= strrev(pack("l", $arr[self::KEY_VAL]));
                     break;
                     
                 case self::BINN_INT64:
-                    $this->binn_obj .= pack("C", self::BINN_INT64);
-                    $this->binn_obj .= strrev(pack("q", $arr[self::KEY_VAL]));
+                    $this->binn_string .= pack("C", self::BINN_INT64);
+                    $this->binn_string .= strrev(pack("q", $arr[self::KEY_VAL]));
                     break;
 
                 case self::BINN_STRING:
-                    $this->binn_obj .= pack("C", self::BINN_STRING);
+                    $this->binn_string .= pack("C", self::BINN_STRING);
 
                     if ($arr[self::KEY_SIZE] <= 127) {
-                        $this->binn_obj .= pack("C", $arr[self::KEY_SIZE]);
+                        $this->binn_string .= pack("C", $arr[self::KEY_SIZE]);
                     } else {
-                        $this->binn_obj .= $this->_get_int32_binsize($arr[self::KEY_SIZE]);
+                        $this->binn_string .= $this->_get_int32_binsize($arr[self::KEY_SIZE]);
                     }
                     
-                    $this->binn_obj .= pack("a*x", $arr[self::KEY_VAL]);
+                    $this->binn_string .= pack("a*x", $arr[self::KEY_VAL]);
                     break;
 
                 case self::BINN_LIST:
-                    $this->binn_obj .= $arr[self::KEY_VAL]->get_binn_val();
+                    $this->binn_string .= $arr[self::KEY_VAL]->get_binn_val();
                     break;
             }
         }
 
-        return $this->binn_obj;
+        return $this->binn_string;
     }
 
     // -----------------------------------------------------------------
