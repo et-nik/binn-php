@@ -69,6 +69,25 @@ class Binn {
     const KEY_SIZE                 = 2;
 
     /**
+     * @var array
+     */
+    private $methods_assignments = [
+        'add_bool'      => self::BINN_BOOL,
+        'add_uint8'     => self::BINN_UINT8,
+        'add_uint16'    => self::BINN_UINT16,
+        'add_uint32'    => self::BINN_UINT32,
+        'add_uint64'    => self::BINN_UINT64,
+        'add_int8'      => self::BINN_INT8,
+        'add_int16'     => self::BINN_INT16,
+        'add_int32'     => self::BINN_INT32,
+        'add_int64'     => self::BINN_INT64,
+        'add_str'       => self::BINN_STRING,
+        'add_list'      => self::BINN_LIST,
+        'add_map'       => self::BINN_MAP,
+        'add_object'    => self::BINN_OBJECT,
+    ];
+
+    /**
      * Binn object type: self::BINN_LIST, self::BINN_MAP, self::BINN_OBJECT
      *
      * @var int $binn_type
@@ -491,62 +510,17 @@ class Binn {
     // -----------------------------------------------------------------
 
     /**
-     * @param string
-     * @param mixed
+     * @param string $name
+     * @param mixed $arguments
      */
     public function __call($name, $arguments)
     {
-        switch ($name) {
-            case "add_bool":
-                $this->_add_val(self::BINN_BOOL, $arguments[0]);
-                break;
-                
-            case "add_uint8":
-                $this->_add_val(self::BINN_UINT8, $arguments[0]);
-                break;
-                
-            case "add_uint16":
-                $this->_add_val(self::BINN_UINT16, $arguments[0]);
-                break;
-                
-            case "add_uint32":
-                $this->_add_val(self::BINN_UINT32, $arguments[0]);
-                break;
-                
-            case "add_uint64":
-                $this->_add_val(self::BINN_UINT64, $arguments[0]);
-                break;
-                
-            case "add_int8":
-                $this->_add_val(self::BINN_INT8, $arguments[0]);
-                break;
-
-            case "add_int16":
-                $this->_add_val(self::BINN_INT16, $arguments[0]);
-                break;
-
-            case "add_int32":
-                $this->_add_val(self::BINN_INT32, $arguments[0]);
-                break;
-
-            case "add_int64":
-                $this->_add_val(self::BINN_INT64, $arguments[0]);
-                break;
-
-            case "add_str":
-                $this->_add_val(self::BINN_STRING, $arguments[0]);
-                break;
-
-            case "add_list":
-                $this->_add_val(self::BINN_LIST, $arguments[0]);
-                break;
-                
-            default:
-                // Invalid method
-                break;
+        if (array_key_exists($name, $this->methods_assignments)) {
+            $this->_add_val($this->methods_assignments[$name], $arguments[0]);
+            return $this;
         }
 
-        return $this;
+        throw new \Exception("Call to undefined method {$name}");
     }
 
     // -----------------------------------------------------------------
@@ -675,10 +649,6 @@ class Binn {
                     if ($list_size & 1 << 7) {
                         $list_size = unpack("N", substr($binstring, $pos, 4))[1];
                         $list_size = ($list_size &~ (1 << 31)); // Cut bit
-
-                        $new = substr($binstring, $pos-1, $list_size);
-                    } else {
-                        $new = substr($binstring, $pos-1, $list_size);
                     }
 
                     $this->_add_val(self::BINN_LIST, new Binn());
@@ -688,11 +658,6 @@ class Binn {
                     break;
                     
                 default:
-                    // $pos += $list_size;
-                    // echo "\nStoppend pos #{$pos}(" . strtoupper(base_convert($pos, 10, 16)) . ")\n";
-                    // var_dump($cur_type);
-                    // file_put_contents("/home/nikita/Web/test/gdftp/bin/stopped_sym.bin", $binstring[$pos]);
-                    // echo "\n";
                     $stop_while = true;
                     break;
             }
