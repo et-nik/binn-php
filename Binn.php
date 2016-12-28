@@ -109,14 +109,6 @@ class Binn {
     protected $binn_obj     = "";
 
     /**
-     * Sub binn objects
-     *
-     * @var string
-     * @access private
-     */
-    private $sub_objects;
-
-    /**
      * Object elements
      * 
      * @var array
@@ -689,10 +681,7 @@ class Binn {
                         $new = substr($binstring, $pos-1, $list_size);
                     }
 
-                    $sub_objects[] = new Binn;
-                    $sub_objects[count($sub_objects)-1]->binn_open($new);
-
-                    $this->_add_val(self::BINN_LIST, $sub_objects[count($sub_objects)-1]);
+                    $this->_add_val(self::BINN_LIST, new Binn());
 
                     $pos += ($list_size-1);
 
