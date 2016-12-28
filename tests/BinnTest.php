@@ -24,6 +24,19 @@ class BinnTest extends PHPUnit_Framework_TestCase
         $this->assertEquals("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00", $binn->get_binn_val());
     }
 
+    public function testListList()
+    {
+        $binn = new Binn();
+        $binn->binn_list()->add_str("Hello");
+
+        $binnSubj = new Binn();
+        $binnSubj->binn_list()->add_str("World");
+
+        $binn->add_list($binnSubj);
+
+        $this->assertEquals("\xE0\x17\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\05World\x00", $binn->get_binn_val());
+    }
+
     public function testBinnFree()
     {
         $binn = new Binn();
