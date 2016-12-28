@@ -19,6 +19,7 @@ namespace knik;
 
 class Binn {
 
+    // Consts from original C++ Library
     const BINN_LIST         = 0xE0;
     const BINN_MAP          = 0xE1;
     const BINN_OBJECT       = 0xE2;
@@ -62,6 +63,11 @@ class Binn {
     const INT64_MIN                 = -9223372036854775808;
     const INT64_MAX                 = 9223372036854775807;
 
+    // PHP Library consts
+    const KEY_TYPE                 = 0;
+    const KEY_VAL                  = 1;
+    const KEY_SIZE                 = 2;
+
     /**
      * Binn object type: self::BINN_LIST, self::BINN_MAP, self::BINN_OBJECT
      *
@@ -104,7 +110,7 @@ class Binn {
 
     /**
      * Sub binn objects
-     * 
+     *
      * @var string
      * @access private
      */
@@ -248,11 +254,11 @@ class Binn {
 
         // Data size
         foreach ($this->binn_arr as &$arr) {
-            if ($arr[0] == self::BINN_STRING) {
-                $size += $arr[2] <= 127 ? $arr[2]+2 : $arr[2]+5; // Size Byte + NULL Byte
+            if ($arr[self::KEY_TYPE] == self::BINN_STRING) {
+                $size += $arr[self::KEY_SIZE] <= 127 ? $arr[self::KEY_SIZE]+2 : $arr[self::KEY_SIZE]+5; // Size Byte + NULL Byte
             }
             else {
-                $size += $arr[2];
+                $size += $arr[self::KEY_SIZE];
             }
         }
 
@@ -324,7 +330,12 @@ class Binn {
 
         $this->data_size += $size;
         $this->count++;
-        $this->binn_arr[] = [$type, $value, $size];
+
+        $this->binn_arr[] = [
+            self::KEY_TYPE      => $type,
+            self::KEY_VAL       => $value,
+            self::KEY_SIZE      => $size
+        ];
     }
 
     // -----------------------------------------------------------------
@@ -338,9 +349,9 @@ class Binn {
         $return = [];
 
         foreach ($this->binn_arr as &$arr) {
-            switch ($arr[0]) {
+            switch ($arr[self::KEY_TYPE]) {
                 case self::BINN_LIST:
-                    $return[] = $arr[1]->get_binn_arr();
+                    $return[] = $arr[self::KEY_VAL]->get_binn_arr();
                     break;
 
                 case self::BINN_BOOL:
@@ -355,7 +366,7 @@ class Binn {
                 case self::BINN_INT8:
                 case self::BINN_UINT8:
                 case self::BINN_STRING:
-                    $return[] = $arr[1];
+                    $return[] = $arr[self::KEY_VAL];
                     break;
             }
         }
@@ -411,9 +422,9 @@ class Binn {
             : $this->_get_int32_binsize($count);
 
         foreach ($this->binn_arr as &$arr) {
-            switch ($arr[0]) {
+            switch ($arr[self::KEY_TYPE]) {
                 case self::BINN_BOOL:
-                    $this->binn_obj .= $arr[1] ? pack("C", self::BINN_TRUE) : pack("C", self::BINN_FALSE);
+                    $this->binn_obj .= $arr[self::KEY_VAL] ? pack("C", self::BINN_TRUE) : pack("C", self::BINN_FALSE);
                     break;
                     
                 case self::BINN_TRUE:
@@ -426,54 +437,58 @@ class Binn {
                     
                 case self::BINN_UINT8:
                     $this->binn_obj .= pack("C", self::BINN_UINT8);
-                    $this->binn_obj .= pack("C", $arr[1]);
+                    $this->binn_obj .= pack("C", $arr[self::KEY_VAL]);
                     break;
                     
                 case self::BINN_UINT16:
                     $this->binn_obj .= pack("C", self::BINN_UINT16);
-                    $this->binn_obj .= pack("n", $arr[1]);
+                    $this->binn_obj .= pack("n", $arr[self::KEY_VAL]);
                     break;
                     
                 case self::BINN_UINT32:
                     $this->binn_obj .= pack("C", self::BINN_UINT32);
-                    $this->binn_obj .= pack("N", $arr[1]);
+                    $this->binn_obj .= pack("N", $arr[self::KEY_VAL]);
                     break;
                     
                 case self::BINN_UINT64:
                     $this->binn_obj .= pack("C", self::BINN_UINT64);
-                    $this->binn_obj .= pack("J", $arr[1]);
+                    $this->binn_obj .= pack("J", $arr[self::KEY_VAL]);
                     break;
 
                 case self::BINN_INT8:
                     $this->binn_obj .= pack("C", self::BINN_UINT8);
-                    $this->binn_obj .= pack("c", $arr[1]);
+                    $this->binn_obj .= pack("c", $arr[self::KEY_VAL]);
                     break;
                     
                 case self::BINN_INT16:
                     $this->binn_obj .= pack("C", self::BINN_INT16);
-                    $this->binn_obj .= strrev(pack("s", $arr[1]));
+                    $this->binn_obj .= strrev(pack("s", $arr[self::KEY_VAL]));
                     break;
                     
                 case self::BINN_INT32:
                     $this->binn_obj .= pack("C", self::BINN_INT32);
-                    $this->binn_obj .= strrev(pack("l", $arr[1]));
+                    $this->binn_obj .= strrev(pack("l", $arr[self::KEY_VAL]));
                     break;
                     
                 case self::BINN_INT64:
                     $this->binn_obj .= pack("C", self::BINN_INT64);
-                    $this->binn_obj .= strrev(pack("q", $arr[1]));
+                    $this->binn_obj .= strrev(pack("q", $arr[self::KEY_VAL]));
                     break;
 
                 case self::BINN_STRING:
                     $this->binn_obj .= pack("C", self::BINN_STRING);
 
-                    if ($arr[2] <= 127) {
-                        $this->binn_obj .= pack("C", $arr[2]);
+                    if ($arr[self::KEY_SIZE] <= 127) {
+                        $this->binn_obj .= pack("C", $arr[self::KEY_SIZE]);
                     } else {
-                        $this->binn_obj .= $this->_get_int32_binsize($arr[2]);
+                        $this->binn_obj .= $this->_get_int32_binsize($arr[self::KEY_SIZE]);
                     }
                     
-                    $this->binn_obj .= pack("a*x", $arr[1]);
+                    $this->binn_obj .= pack("a*x", $arr[self::KEY_VAL]);
+                    break;
+
+                case self::BINN_LIST:
+                    $this->binn_obj .= $arr[self::KEY_VAL]->get_binn_val();
                     break;
             }
         }
