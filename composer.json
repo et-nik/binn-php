@@ -4,7 +4,7 @@
     "keywords": ["serialize", "bin"],
     "homepage": "https://github.com/ET-NiK/binn-php",
     "type": "library",
-    "license": "MIT",
+    "license": "GPL-3.0",
     "authors": [
         {
             "name": "Nikita Kuznetsov",
