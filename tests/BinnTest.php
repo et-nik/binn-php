@@ -1,8 +1,10 @@
 <?php
 
-use knik\Binn;
+namespace tests;
 
-class BinnTest extends PHPUnit_Framework_TestCase
+use \knik\Binn;
+
+class BinnTest extends \PHPUnit_Framework_TestCase
 {
     public function testListInt()
     {
@@ -35,6 +37,11 @@ class BinnTest extends PHPUnit_Framework_TestCase
         $binn->add_list($binnSubj);
 
         $this->assertEquals("\xE0\x17\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\05World\x00", $binn->get_binn_val());
+
+        $binnString = $binn->get_binn_val();
+        $binn = new Binn($binnString);
+
+        $binn->binn_list()->add_uint8(123)->add_int16(-456)->add_uint16(789)->add_list();
     }
 
     public function testBinnFree()
