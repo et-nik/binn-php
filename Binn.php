@@ -651,7 +651,8 @@ class Binn {
                         $list_size = ($list_size &~ (1 << 31)); // Cut bit
                     }
 
-                    $this->_add_val(self::BINN_LIST, new Binn());
+                    $substring = substr($binstring, $pos-1, $list_size);
+                    $this->_add_val(self::BINN_LIST, new Binn($substring));
 
                     $pos += ($list_size-1);
 

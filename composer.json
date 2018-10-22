@@ -2,14 +2,14 @@
     "name": "knik/binn",
     "description": "Serialize to binary string.",
     "keywords": ["serialize", "bin"],
-    "homepage": "https://github.com/ET-NiK/binn-php",
+    "homepage": "https://github.com/et-nik/binn-php",
     "type": "library",
     "license": "GPL-3.0",
     "authors": [
         {
             "name": "Nikita Kuznetsov",
             "email": "nikita.hldm@gmail.com",
-            "homepage": "https://github.com/ET-NiK"
+            "homepage": "https://github.com/et-nik"
         }
     ],
     "require": {
