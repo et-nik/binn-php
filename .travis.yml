@@ -1,14 +1,31 @@
 language: php
 
 php:
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7
-  - 7.1
   - 7.2
+  - 7.1
+  - 7.0
+  - 5.6
+  - 5.5
+  - 5.4
   - hhvm
-
+  
+matrix:
+  allow_failures:
+    - php: 5.5
+    - php: 5.4
+    - php: hhvm
+    
+before_install:
+  - composer self-update
+  
+install:
+  - |
+    if [[ "$(phpenv version-name)" < "5.6" ]]
+    then
+      travis_retry composer require --no-interaction --prefer-source 'phpunit/phpunit:^4.8'
+    fi
+  - travis_retry composer update --no-interaction --prefer-source
+  
 script:
   - composer update
   - phpunit --bootstrap vendor/autoload.php tests/BinnTest.php

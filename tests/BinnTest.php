@@ -2,7 +2,7 @@
 
 use knik\Binn;
 
-class BinnTest extends PHPUnit_Framework_TestCase
+class BinnTest extends \PHPUnit_Framework_TestCase
 {
     public function testListInt()
     {
