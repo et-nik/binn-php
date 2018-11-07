@@ -25,7 +25,3 @@ install:
       travis_retry composer require --no-interaction --prefer-source 'phpunit/phpunit:^4.8'
     fi
   - travis_retry composer update --no-interaction --prefer-source
-  
-script:
-  - composer update
-  - phpunit --bootstrap vendor/autoload.php tests/BinnTest.php
