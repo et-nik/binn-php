@@ -17,6 +17,21 @@
 
 namespace knik;
 
+/**
+ * @method Binn add_uint8(integer $value)
+ * @method Binn add_uint16(integer $value)
+ * @method Binn add_uint32(integer $value)
+ * @method Binn add_uint64(integer $value)
+ * @method Binn add_int8(integer $value)
+ * @method Binn add_int16(integer $value)
+ * @method Binn add_int32(integer $value)
+ * @method Binn add_int64(integer $value)
+ * @method Binn add_str(string $value)
+ * @method Binn add_list(Binn $value)
+ * @method Binn add_map(Binn $value)
+ * @method Binn add_object(Binn $value)
+ *
+ */
 class Binn {
 
     // Consts from original C++ Library
