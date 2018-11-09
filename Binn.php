@@ -6,7 +6,7 @@
  * Note! This class not support Map and Object, only List support. Sorry, i am working on this.
  *
  * Original Binn Library for C++ - https://github.com/liteserver/binn
- * 
+ *
  *
  * @author      Nikita Kuznetsov (NiK)
  * @copyright   Copyright (c) 2016, Nikita Kuznetsov (nikita.hldm@gmail.com)
@@ -18,6 +18,7 @@
 namespace knik;
 
 /**
+ * @method Binn add_bool(boolean $value)
  * @method Binn add_uint8(integer $value)
  * @method Binn add_uint16(integer $value)
  * @method Binn add_uint32(integer $value)
@@ -78,6 +79,8 @@ class Binn {
     const INT64_MIN                 = -9223372036854775808;
     const INT64_MAX                 = 9223372036854775807;
 
+    const MIN_BINN_SIZE             = 3;
+
     // PHP Library consts
     const KEY_TYPE                 = 0;
     const KEY_VAL                  = 1;
@@ -112,7 +115,7 @@ class Binn {
 
     /**
      * Count elements in object
-     * 
+     *
      * @var int
      * @access protected
      */
@@ -120,15 +123,22 @@ class Binn {
 
     /**
      * Data size in bytes
-     * 
+     *
      * @var int
      * @access protected
      */
     protected $data_size    = 0;
 
     /**
+     * Meta size in bytes
+     *
+     * @var int
+     */
+    protected $meta_size    = self::MIN_BINN_SIZE;
+
+    /**
      * Size bin string in bytes
-     * 
+     *
      * @var int
      * @access protected
      */
@@ -136,7 +146,7 @@ class Binn {
 
     /**
      * Bin string
-     * 
+     *
      * @var string
      * @access protected
      */
@@ -144,7 +154,7 @@ class Binn {
 
     /**
      * Object elements
-     * 
+     *
      * @var array
      * @access protected
      */
@@ -165,10 +175,10 @@ class Binn {
 
     /**
      * @param int   $type
-     * @param mix   $val
+     * @param mixed   $val
      *
      * @return int  $type2
-     * 
+     *
      */
     protected function compress_int($type, $val)
     {
@@ -190,7 +200,7 @@ class Binn {
                     break;
             }
         }
-        
+
         if (in_array($type, [self::BINN_INT64, self::BINN_INT32, self::BINN_INT16])) {
             // Signed
             if ($val >= self::INT8_MIN) {
@@ -226,11 +236,16 @@ class Binn {
     public function binn_free()
     {
         $this->binn_type = self::BINN_STORAGE_NOBYTES;
-    
+
         $this->count        = 0;
         $this->data_size    = 0;
+
+        // Initial meta size 3 bytes
+        // Type byte + Size byte + Item counts byte
+        $this->meta_size    = 3;
+
         $this->size         = 0;
-        $this->binn_string     = "";
+        $this->binn_string  = "";
 
         $this->sub_objects  = [];
         $this->binn_arr     = [];
@@ -242,6 +257,7 @@ class Binn {
 
     /**
      * @param string @bindstring
+     * @return $this
      */
     public function binn_open($binstring = "")
     {
@@ -257,38 +273,17 @@ class Binn {
      */
     private function _calculate_size()
     {
-        $size = 1; // type
+        $size = 0;
 
-        // Size
-        if ($this->data_size > 127) {
-            $size += 4; 
-        } else {
-            $size += 1;
+        if (($this->data_size + $this->meta_size) > 127) {
+            $size += 3;
         }
 
-        // Count size
-        $arr_count = count($this->binn_arr);
-        if ($arr_count > 127) {
-            $size += 4;
-        }
-        else {
-            $size += 1;
+        if (count($this->binn_arr) > 127) {
+            $size += 3;
         }
 
-        // Define types var
-        $size += $arr_count;
-
-        // Data size
-        foreach ($this->binn_arr as &$arr) {
-            if ($arr[self::KEY_TYPE] == self::BINN_STRING) {
-                $size += $arr[self::KEY_SIZE] <= 127 ? $arr[self::KEY_SIZE]+2 : $arr[self::KEY_SIZE]+5; // Size Byte + NULL Byte
-            }
-            else {
-                $size += $arr[self::KEY_SIZE];
-            }
-        }
-
-        $this->size = $size;
+        $this->size = ($this->data_size + $this->meta_size) + $size;
         return $this->size;
     }
 
@@ -301,66 +296,72 @@ class Binn {
     private function _add_val($type, $value)
     {
         if (in_array($type,
-                [self::BINN_INT64, self::BINN_INT32, self::BINN_INT16,
+            [self::BINN_INT64, self::BINN_INT32, self::BINN_INT16,
                 self::BINN_UINT64,self::BINN_UINT32, self::BINN_UINT16])
-        ){
+         ) {
             $type = $this->compress_int($type, $value);
         }
 
-        // Size
+        // Data size
         switch ($type) {
             case self::BINN_BOOL:
-                $size = 1;
+            case self::BINN_TRUE:
+            case self::BINN_FALSE:
+                $meta_size = 1;
+                $data_size = 0;
                 break;
-                
-            case self::BINN_UINT8:
-                $size = 1;
-                break;
-                
-            case self::BINN_UINT16:
-                $size = 2;
-                break;
-                
-            case self::BINN_UINT32:
-                $size = 4;
-                break;
-                
-            case self::BINN_UINT64:
-                $size = 8;
-                break;
-                
+
             case self::BINN_INT8:
-                $size = 1;
+            case self::BINN_UINT8:
+                $meta_size = 1;
+                $data_size = 1;
                 break;
-                
+
             case self::BINN_INT16:
-                $size = 2;
+            case self::BINN_UINT16:
+                $meta_size = 1;
+                $data_size = 2;
                 break;
-                
+
             case self::BINN_INT32:
-                $size = 4;
+            case self::BINN_UINT32:
+                $meta_size = 1;
+                $data_size = 4;
                 break;
-                
+
             case self::BINN_INT64:
-                $size = 8;
+            case self::BINN_UINT64:
+                $meta_size = 1;
+                $data_size = 8;
                 break;
-                
+
             case self::BINN_STRING:
-                $size = strlen($value);
+                $data_size = strlen($value);
+
+                $meta_size = $data_size > 127 ? 4 : 1; // size byte
+                $meta_size += 2; // type byte + null terminated
                 break;
 
             case self::BINN_LIST:
-                $size = $value->binn_size();
+                $data_size = $value->binn_size();
+                $meta_size = 0;
+                break;
+
+            default:
+                // Unknown type
+                return false;
                 break;
         }
 
-        $this->data_size += $size;
+        $this->data_size += $data_size;
+        $this->meta_size += $meta_size;
+
         $this->count++;
 
         $this->binn_arr[] = [
             self::KEY_TYPE      => $type,
             self::KEY_VAL       => $value,
-            self::KEY_SIZE      => $size
+            self::KEY_SIZE      => $data_size
         ];
     }
 
@@ -435,9 +436,10 @@ class Binn {
     public function get_binn_val()
     {
         $this->_calculate_size();
-        
+
+        $this->binn_string = '';
         $this->binn_string .= pack("C", $this->binn_type);
-        
+
         $this->binn_string .= ($this->size <= 127)
             ? pack("C", $this->size)
             : $this->_get_int32_binsize($this->size);
@@ -452,30 +454,30 @@ class Binn {
                 case self::BINN_BOOL:
                     $this->binn_string .= $arr[self::KEY_VAL] ? pack("C", self::BINN_TRUE) : pack("C", self::BINN_FALSE);
                     break;
-                    
+
                 case self::BINN_TRUE:
                     $this->binn_string .= pack("C", self::BINN_TRUE);
                     break;
-                    
+
                 case self::BINN_FALSE:
                     $this->binn_string .= pack("C", self::BINN_FALSE);
                     break;
-                    
+
                 case self::BINN_UINT8:
                     $this->binn_string .= pack("C", self::BINN_UINT8);
                     $this->binn_string .= pack("C", $arr[self::KEY_VAL]);
                     break;
-                    
+
                 case self::BINN_UINT16:
                     $this->binn_string .= pack("C", self::BINN_UINT16);
                     $this->binn_string .= pack("n", $arr[self::KEY_VAL]);
                     break;
-                    
+
                 case self::BINN_UINT32:
                     $this->binn_string .= pack("C", self::BINN_UINT32);
                     $this->binn_string .= pack("N", $arr[self::KEY_VAL]);
                     break;
-                    
+
                 case self::BINN_UINT64:
                     $this->binn_string .= pack("C", self::BINN_UINT64);
                     $this->binn_string .= pack("J", $arr[self::KEY_VAL]);
@@ -485,17 +487,17 @@ class Binn {
                     $this->binn_string .= pack("C", self::BINN_UINT8);
                     $this->binn_string .= pack("c", $arr[self::KEY_VAL]);
                     break;
-                    
+
                 case self::BINN_INT16:
                     $this->binn_string .= pack("C", self::BINN_INT16);
                     $this->binn_string .= strrev(pack("s", $arr[self::KEY_VAL]));
                     break;
-                    
+
                 case self::BINN_INT32:
                     $this->binn_string .= pack("C", self::BINN_INT32);
                     $this->binn_string .= strrev(pack("l", $arr[self::KEY_VAL]));
                     break;
-                    
+
                 case self::BINN_INT64:
                     $this->binn_string .= pack("C", self::BINN_INT64);
                     $this->binn_string .= strrev(pack("q", $arr[self::KEY_VAL]));
@@ -509,7 +511,7 @@ class Binn {
                     } else {
                         $this->binn_string .= $this->_get_int32_binsize($arr[self::KEY_SIZE]);
                     }
-                    
+
                     $this->binn_string .= pack("a*x", $arr[self::KEY_VAL]);
                     break;
 
@@ -553,7 +555,7 @@ class Binn {
      */
     private function _binn_load($binstring)
     {
-        $pos = 1; // Позиция
+        $pos = 1; // Position
         $size_bytes = unpack("C", $binstring[$pos])[1];
 
         // Size
@@ -595,11 +597,11 @@ class Binn {
                 case self::BINN_TRUE:
                     $this->_add_val(self::BINN_BOOL, true);
                     break;
-                    
+
                 case self::BINN_FALSE:
                     $this->_add_val(self::BINN_BOOL, false);
                     break;
-                    
+
                 case self::BINN_UINT64:
                     $this->_add_val(self::BINN_UINT64, unpack("J", substr($binstring, $pos, 8))[1]);
                     $pos += 8;
@@ -609,12 +611,12 @@ class Binn {
                     $this->_add_val(self::BINN_UINT32, unpack("N", substr($binstring, $pos, 4))[1]);
                     $pos += 4;
                     break;
-                    
+
                 case self::BINN_UINT16:
                     $this->_add_val(self::BINN_UINT16, unpack("n", substr($binstring, $pos, 2))[1]);
                     $pos += 2;
                     break;
-                    
+
                 case self::BINN_UINT8:
                     $this->_add_val(self::BINN_UINT8, unpack("C", substr($binstring, $pos, 1))[1]);
                     $pos += 1;
@@ -650,16 +652,16 @@ class Binn {
                         $pos += 4;
                     } else {
                         $pos += 1;
-                     }
+                    }
 
                     $this->_add_val(self::BINN_STRING, unpack("a*", substr($binstring, $pos, $string_size))[1]);
                     $pos += $string_size;
                     $pos += 1; // Null byte
                     break;
-                
+
                 case self::BINN_LIST:
                     $list_size = unpack("C", $binstring[$pos])[1];
-                    
+
                     // Size
                     if ($list_size & 1 << 7) {
                         $list_size = unpack("N", substr($binstring, $pos, 4))[1];
@@ -672,7 +674,7 @@ class Binn {
                     $pos += ($list_size-1);
 
                     break;
-                    
+
                 default:
                     $stop_while = true;
                     break;

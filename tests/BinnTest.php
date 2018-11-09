@@ -2,6 +2,9 @@
 
 use knik\Binn;
 
+/**
+ * @covers knik\Binn<extended>
+ */
 class BinnTest extends \PHPUnit_Framework_TestCase
 {
     public function testListInt()
@@ -22,6 +25,8 @@ class BinnTest extends \PHPUnit_Framework_TestCase
         $binn = new Binn();
         $binn->binn_list()->add_str("Hello")->add_str(' World!');
         $this->assertEquals("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00", $binn->get_binn_val());
+
+        $this->assertEquals(strlen($binn->get_binn_val()), $binn->binn_size());
     }
 
     public function testListList()
@@ -34,7 +39,7 @@ class BinnTest extends \PHPUnit_Framework_TestCase
 
         $binn->add_list($binnSubj);
 
-        $this->assertEquals("\xE0\x17\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\05World\x00", $binn->get_binn_val());
+        $this->assertEquals("\xE0\x16\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\x05World\x00", $binn->get_binn_val());
     }
 
     public function testBinnFree()
@@ -67,5 +72,25 @@ class BinnTest extends \PHPUnit_Framework_TestCase
         $binn = new Binn();
         $binn->binn_list()->add_uint8(123)->add_int16(-456)->add_uint16(789);
         $this->assertEquals([123, -456, 789], $binn->get_binn_arr());
+        $this->assertEquals([123, -456, 789], $binn->get_binn_arr());
+    }
+    
+    public function testBigBinn()
+    {
+        $binn1 = new Binn();
+        $binn1->binn_list();
+
+        $binn1->add_int8(6);
+        $binn1->add_str('text-text-text-text-text-text-text-text-text-text-text-tex'); // length 58
+        $binn1->add_str('text-text-text-text-text-text-text-text-text-text-text-text'); // length 59
+        $binn1->add_bool(false);
+
+        $arr = $binn1->get_binn_arr();
+        $binnString = $binn1->get_binn_val();
+
+        $binn2 = new Binn($binnString);
+        $arr2 = $binn2->get_binn_arr();
+
+        $this->assertEquals($arr, $arr2);
     }
 }
