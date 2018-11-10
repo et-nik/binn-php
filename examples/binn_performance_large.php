@@ -81,9 +81,9 @@ $read = new Binn();
 
 $time_start = microtime(true);
 for ($i = 0; $i < 1000000; $i++) {
-    $read->binn_free();
-    $read->binn_open($bin_string);
-    $read->get_binn_arr();
+    $read->binnFree();
+    $read->binnOpen($bin_string);
+    $read->getBinnArr();
 }
 echo "Time (Binn): " . (microtime(true) - $time_start) . "\n";
 

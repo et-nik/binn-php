@@ -14,14 +14,14 @@ $write->add_str("If the first bit of size is 0, it uses only 1 byte. So when the
 $write->add_uint8(1);
 
 // socket_write($socket, $write->get_binn_val(), $write->binn_size());
-file_put_contents("test.bin", $write->get_binn_val());
-echo "Writed {$write->binn_size()} bytes\n";
+file_put_contents("test.bin", $write->getBinnVal());
+echo "Writed {$write->binnSize()} bytes\n";
 
 // Read
 
 // $bin_string = $write->get_binn_val();
 $bin_string = file_get_contents("test.bin");
 $read = new Binn();
-$read->binn_open($bin_string);
+$read->binnOpen($bin_string);
 
-print_r($read->get_binn_arr());
+print_r($read->getBinnArr());
