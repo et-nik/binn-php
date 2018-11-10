@@ -73,6 +73,8 @@ class Binn extends BinnAbstract {
         foreach ($this->binnArr as &$arr) {
             switch ($arr[self::KEY_TYPE]) {
                 case self::BINN_LIST:
+                case self::BINN_MAP:
+                case self::BINN_OBJECT:
                     $return[] = $arr[self::KEY_VAL]->getBinnArr();
                     break;
 
@@ -88,6 +90,9 @@ class Binn extends BinnAbstract {
                 case self::BINN_INT8:
                 case self::BINN_UINT8:
                 case self::BINN_STRING:
+                case self::BINN_FLOAT:
+                case self::BINN_FLOAT32:
+                case self::BINN_FLOAT64:
                     $return[] = $arr[self::KEY_VAL];
                     break;
             }
@@ -120,6 +125,10 @@ class Binn extends BinnAbstract {
 
         if (is_integer($value)) {
             return $this->detectInt($value);
+        }
+
+        if (is_float($value)) {
+            return self::BINN_FLOAT64;
         }
 
         if (is_object($value)) {

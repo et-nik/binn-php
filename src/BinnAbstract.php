@@ -20,6 +20,10 @@ abstract class BinnAbstract
     const BINN_INT64        = 0x81;
     const BINN_STRING       = 0xA0;
 
+    const BINN_FLOAT32      = 0x62;  // (DWORD)
+    const BINN_FLOAT64      = 0x82;  // (QWORD)
+    const BINN_FLOAT        = self::BINN_FLOAT32;
+
     const BINN_BOOL         = 0x80061;
 
     const BINN_STORAGE_NOBYTES      = 0x00;

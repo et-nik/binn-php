@@ -13,6 +13,8 @@ use Knik\Binn\Exceptions\InvalidArrayException;
  * @method BinnList addInt16(integer $value)
  * @method BinnList addInt32(integer $value)
  * @method BinnList addInt64(integer $value)
+ * @method BinnList addFloat(string $value)
+ * @method BinnList addDouble(string $value)
  * @method BinnList addStr(string $value)
  * @method BinnList addList(Binn $value)
  * @method BinnList addMap(Binn $value)
@@ -34,6 +36,8 @@ class BinnList extends Binn
         'addInt16'     => self::BINN_INT16,
         'addInt32'     => self::BINN_INT32,
         'addInt64'     => self::BINN_INT64,
+        'addFloat'     => self::BINN_FLOAT32,
+        'addDouble'    => self::BINN_FLOAT64,
         'addStr'       => self::BINN_STRING,
         'addList'      => self::BINN_LIST,
         'addMap'       => self::BINN_MAP,
@@ -154,6 +158,16 @@ class BinnList extends Binn
                     $this->binnString .= strrev(pack("q", $arr[self::KEY_VAL]));
                     break;
 
+                case self::BINN_FLOAT32:
+                    $this->binnString .= pack("C", self::BINN_FLOAT32);
+                    $this->binnString .= strrev(pack("G", $arr[self::KEY_VAL]));
+                    break;
+
+                case self::BINN_FLOAT64:
+                    $this->binnString .= pack("C", self::BINN_FLOAT64);
+                    $this->binnString .= strrev(pack("E", $arr[self::KEY_VAL]));
+                    break;
+
                 case self::BINN_STRING:
                     $this->binnString .= pack("C", self::BINN_STRING);
 
@@ -264,6 +278,16 @@ class BinnList extends Binn
 
             case self::BINN_INT64:
             case self::BINN_UINT64:
+                $metaSize = 1;
+                $dataSize = 8;
+                break;
+
+            case self::BINN_FLOAT32:
+                $metaSize = 1;
+                $dataSize = 4;
+                break;
+
+            case self::BINN_FLOAT64:
                 $metaSize = 1;
                 $dataSize = 8;
                 break;
@@ -384,12 +408,22 @@ class BinnList extends Binn
                     break;
 
                 case self::BINN_INT32:
-                    $this->_addVal(self::BINN_INT16, unpack("i", strrev(substr($binstring, $pos, 4)))[1]);
+                    $this->_addVal(self::BINN_INT32, unpack("i", strrev(substr($binstring, $pos, 4)))[1]);
                     $pos += 4;
                     break;
 
                 case self::BINN_INT64:
-                    $this->_addVal(self::BINN_INT16, unpack("q", strrev(substr($binstring, $pos, 8)))[1]);
+                    $this->_addVal(self::BINN_INT64, unpack("q", strrev(substr($binstring, $pos, 8)))[1]);
+                    $pos += 8;
+                    break;
+
+                case self::BINN_FLOAT32:
+                    $this->_addVal(self::BINN_FLOAT32, unpack("G", strrev(substr($binstring, $pos, 4)))[1]);
+                    $pos += 4;
+                    break;
+
+                case self::BINN_FLOAT64:
+                    $this->_addVal(self::BINN_FLOAT64, unpack("E", strrev(substr($binstring, $pos, 8)))[1]);
                     $pos += 8;
                     break;
 
