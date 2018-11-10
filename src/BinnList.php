@@ -1,6 +1,7 @@
 <?php
 
 namespace Knik\Binn;
+use Knik\Binn\Exceptions\InvalidArrayException;
 
 /**
  * @method BinnList addBool(boolean $value)
@@ -173,7 +174,54 @@ class BinnList extends Binn
 
         return $this->binnString;
     }
-    
+
+    /**
+     * @param array $array
+     * @return string
+     */
+    public function serialize($array = [])
+    {
+        if (empty($array)) {
+            return $this->getBinnVal();
+        }
+
+        $this->binnFree();
+
+        if ($this->isAssoc($array)) {
+            throw new InvalidArrayException('Array should be sequential');
+        }
+
+        foreach ($array as $item) {
+            $type = $this->detectType($item);
+
+            if (($type & self::BINN_STORAGE_CONTAINER) === self::BINN_STORAGE_CONTAINER) {
+                $binn = new BinnList();
+                $binn->serialize($item);
+                $item = $binn;
+            }
+
+            $this->_addVal($type, $item);
+        }
+
+        return $this->getBinnVal();
+    }
+
+    /**
+     * @param string $binnString
+     * @return array
+     */
+    public function unserialize($binnString = '')
+    {
+        if (empty($binnString)) {
+            return $this->getBinnArr();
+        }
+
+        $this->binnFree();
+
+        $this->binnOpen($binnString);
+        return $this->getBinnArr();
+    }
+
     /**
      * @param int   $type
      * @param mixed $value
@@ -228,6 +276,9 @@ class BinnList extends Binn
                 break;
 
             case self::BINN_LIST:
+            case self::BINN_MAP:
+            case self::BINN_OBJECT:
+            case self::BINN_STORAGE_CONTAINER:
                 $dataSize = $value->binnSize();
                 $metaSize = 0;
                 break;

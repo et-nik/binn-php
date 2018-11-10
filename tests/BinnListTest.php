@@ -7,6 +7,8 @@ use Knik\Binn\BinnList;
  */
 class BinnListTest extends \PHPUnit_Framework_TestCase
 {
+    static private $stringBinnList = "\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00";
+
     public function testListInt()
     {
         $binn = new BinnList();
@@ -24,7 +26,7 @@ class BinnListTest extends \PHPUnit_Framework_TestCase
     {
         $binn = new BinnList();
         $binn->addStr("Hello")->addStr(' World!');
-        $this->assertEquals("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00", $binn->getBinnVal());
+        $this->assertEquals(self::$stringBinnList, $binn->getBinnVal());
 
         $this->assertEquals(strlen($binn->getBinnVal()), $binn->binnSize());
     }
@@ -92,5 +94,39 @@ class BinnListTest extends \PHPUnit_Framework_TestCase
         $arr2 = $binn2->getBinnArr();
 
         $this->assertEquals($arr, $arr2);
+    }
+
+    public function testUnserialize()
+    {
+        $binn = new BinnList();
+        $this->assertEquals(['Hello', ' World!'], $binn->unserialize("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00"));
+    }
+
+    public function testSerialize()
+    {
+        $binn = new BinnList();
+        $binnString = $binn->serialize(['Hello', ' World!']);
+        $this->assertEquals(self::$stringBinnList, $binnString);
+
+        $binnString = $binn->serialize([123, -456, 789]);
+        $this->assertEquals("\xE0\x0B\x03\x20\x7B\x41\xFE\x38\x40\x03\x15", $binnString);
+    }
+
+    public function testSerializeList()
+    {
+        $binn = new BinnList();
+        $binnString = $binn->serialize(['Hello', ['World']]);
+
+        file_put_contents('binn.bin', $binnString);
+        $this->assertEquals("\xE0\x16\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\x05World\x00", $binnString);
+    }
+
+    /**
+     * @expectedException Knik\Binn\Exceptions\InvalidArrayException
+     */
+    public function testSerializeInvalid()
+    {
+        $binn = new BinnList();
+        $binn->serialize(['Hello', ['assoc_key' => 'World']]);
     }
 }

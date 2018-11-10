@@ -105,6 +105,87 @@ class Binn extends BinnAbstract {
     }
 
     /**
+     * @param null $value
+     * @return int
+     */
+    protected function detectType($value = null)
+    {
+        if (is_bool($value)) {
+            return $value ? self::BINN_TRUE : self::BINN_FALSE;
+        }
+
+        if (is_string($value)) {
+            return self::BINN_STRING;
+        }
+
+        if (is_integer($value)) {
+            return $this->detectInt($value);
+        }
+
+        if (is_object($value)) {
+            return self::BINN_OBJECT;
+        }
+
+        if (is_array($value)) {
+            if (!$this->isAssoc($value)) {
+                return self::BINN_LIST;
+            }
+
+            // TODO: detect map and object
+            if (count(array_filter(array_keys($value), 'is_string')) > 0) {
+                return self::BINN_OBJECT;
+            } else {
+                return self::BINN_MAP;
+            }
+        }
+
+        return self::BINN_NULL;
+    }
+
+    /**
+     * Detect integer type
+     *
+     * @param $value
+     * @return int
+     */
+    protected function detectInt($value)
+    {
+        if ($value < 0) {
+            // int
+            if ($value >= self::INT8_MIN) {
+                return self::BINN_INT8;
+            } else if ($value >= self::INT16_MIN) {
+                return self::BINN_INT16;
+            } else if ($value >= self::BINN_INT32) {
+                return self::BINN_INT32;
+            } else {
+                return self::BINN_INT64;
+            }
+        } else {
+            // uint
+            if ($value <= self::UINT8_MAX) {
+                return self::BINN_UINT8;
+            } else if ($value <= self::UINT16_MAX) {
+                return self::BINN_UINT16;
+            } else if ($value <= self::UINT32_MAX) {
+                return self::BINN_UINT32;
+            } else {
+                return self::BINN_UINT64;
+            }
+        }
+    }
+
+    /**
+     * @param array $arr
+     * @return bool
+     */
+    protected function isAssoc($arr)
+    {
+        if (array() === $arr) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
+    /**
      *
      * @param int $int_val
      *

@@ -1,27 +1,35 @@
 <?php
 
-include "../Binn.php";
+include "../vendor/autoload.php";
 
-use knik\Binn;
+use Knik\Binn\BinnList;
 
 // Write
 
-$write = new Binn();
+$array = [4, "Short string", "Long string, long string, long string, long string, long string, long string, long string, long string"];
+$writeBinn = new BinnList();
+$serialize = $writeBinn->serialize($array);
 
-$write->add_int16(4);
-$write->add_str("Short string");
-$write->add_str("If the first bit of size is 0, it uses only 1 byte. So when the data size is up to 127 (0x7F) bytes the size parameter will use only 1 byte. Otherwise a 4 byte size parameter is used, with the msb 1. Leaving us with a high limit of 2 GigaBytes (0x7FFFFFFF).");
-$write->add_uint8(1);
-
-// socket_write($socket, $write->get_binn_val(), $write->binn_size());
-file_put_contents("test.bin", $write->getBinnVal());
-echo "Writed {$write->binnSize()} bytes\n";
+file_put_contents("test.bin", $serialize);
+echo "Writed {$writeBinn->binnSize()} bytes\n";
 
 // Read
 
-// $bin_string = $write->get_binn_val();
-$bin_string = file_get_contents("test.bin");
-$read = new Binn();
-$read->binnOpen($bin_string);
+$binnString = file_get_contents("test.bin");
+$readBinn = new BinnList($binnString);
 
-print_r($read->getBinnArr());
+print_r($readBinn->unserialize()) . PHP_EOL;
+
+$array = [2, true, [123, -456, 789]];
+
+$binn = new BinnList();
+$serialized = $binn->serialize($array);
+//
+$binnString = $serialized;
+//
+for ($i = 0; $i < strlen($binnString); $i++) {
+    echo "\\x" . strtoupper(str_pad(dechex(ord($binnString[$i])), 2, '0', STR_PAD_LEFT));
+}
+
+
+echo PHP_EOL;
