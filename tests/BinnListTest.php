@@ -22,6 +22,29 @@ class BinnListTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(11, $binn->binnSize());
     }
 
+    public function testListFloat()
+    {
+        $float = 12.34567;
+        $binn = new BinnList();
+        $binn->addFloat($float);
+        $binnString = $binn->getBinnVal();
+
+        $binnRead = new BinnList($binnString);
+        $arrRead = $binnRead->getBinnArr();
+
+        $this->assertEquals($float, $arrRead[0], '', 0.000001);
+
+        $double = 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000025;
+        $binn = new BinnList();
+        $binn->addDouble($double);
+        $binnString = $binn->getBinnVal();
+
+        $binnRead = new BinnList($binnString);
+        $arrRead = $binnRead->getBinnArr();
+
+        $this->assertEquals($double, $arrRead[0]);
+    }
+
     public function testListString()
     {
         $binn = new BinnList();
@@ -110,6 +133,12 @@ class BinnListTest extends \PHPUnit_Framework_TestCase
 
         $binnString = $binn->serialize([123, -456, 789]);
         $this->assertEquals("\xE0\x0B\x03\x20\x7B\x41\xFE\x38\x40\x03\x15", $binnString);
+
+        $arrayWithFloat = [458, 5.2349, 94.005000000000000058];
+        $binnString = $binn->serialize($arrayWithFloat);
+        $binnArray = $binn->unserialize($binnString);
+
+        $this->assertEquals($arrayWithFloat, $binnArray);
     }
 
     public function testSerializeList()
@@ -117,7 +146,6 @@ class BinnListTest extends \PHPUnit_Framework_TestCase
         $binn = new BinnList();
         $binnString = $binn->serialize(['Hello', ['World']]);
 
-        file_put_contents('binn.bin', $binnString);
         $this->assertEquals("\xE0\x16\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\x05World\x00", $binnString);
     }
 

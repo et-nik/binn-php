@@ -128,7 +128,11 @@ class Binn extends BinnAbstract {
         }
 
         if (is_float($value)) {
-            return self::BINN_FLOAT64;
+            if (strlen($value) > 4) {
+                return self::BINN_FLOAT64;
+            } else {
+                return self::BINN_FLOAT32;
+            }
         }
 
         if (is_object($value)) {
