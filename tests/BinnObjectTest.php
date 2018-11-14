@@ -1,11 +1,12 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use \Knik\Binn\BinnObject;
 
 /**
  * @covers Knik\Binn\BinnObject<extended>
  */
-class BinnObjectTest extends \PHPUnit_Framework_TestCase
+class BinnObjectTest extends TestCase
 {
     public function testObject()
     {

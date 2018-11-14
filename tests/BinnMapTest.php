@@ -1,11 +1,12 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use Knik\Binn\BinnMap;
 
 /**
  * @covers Knik\Binn\BinnMap<extended>
  */
-class BinnMapTest extends \PHPUnit_Framework_TestCase
+class BinnMapTest extends TestCase
 {
     public function testMapList()
     {

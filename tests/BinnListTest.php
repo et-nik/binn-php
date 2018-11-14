@@ -1,11 +1,12 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use Knik\Binn\BinnList;
 
 /**
  * @covers Knik\Binn\BinnList<extended>
  */
-class BinnListTest extends \PHPUnit_Framework_TestCase
+class BinnListTest extends TestCase
 {
     static private $stringBinnList = "\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00";
 

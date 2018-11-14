@@ -1,5 +1,6 @@
 <?php
 
+use PHPUnit\Framework\TestCase;
 use Knik\Binn\BinnAbstract;
 use Knik\Binn\BinnList;
 
@@ -14,7 +15,7 @@ class BinnOver extends BinnList
 /**
  * @covers Knik\Binn\BinnAbstract<extended>
  */
-class BinnAbstractTest extends \PHPUnit_Framework_TestCase
+class BinnAbstractTest extends TestCase
 {
     public function testStorageType()
     {
