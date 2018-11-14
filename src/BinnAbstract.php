@@ -2,7 +2,6 @@
 
 namespace Knik\Binn;
 
-
 abstract class BinnAbstract
 {
     // Consts from original C++ Library
@@ -125,6 +124,32 @@ abstract class BinnAbstract
     protected $binnArr = [];
 
     /**
+     * @var array
+     *
+     * Associations container int with container classes
+     *
+     * Example values:
+     * [
+     *  0xE0 => \Knik\Binn\BinnList::class,
+     *  0xE1 => \Knik\Binn\BinnMap::class,
+     *  0xE2 => \Knik\Binn\BinnObject::class,
+     * ]
+     */
+    protected $containersClasses = [
+        0xE0 => \Knik\Binn\BinnList::class,
+        0xE1 => \Knik\Binn\BinnMap::class,
+        0xE2 => \Knik\Binn\BinnObject::class,
+    ];
+
+    /**
+     * @param $containersClasses
+     */
+    public function setContainersClasses($containersClasses)
+    {
+        $this->containersClasses = $containersClasses;
+    }
+
+    /**
      *
      * @param int $intVal
      *
@@ -167,7 +192,7 @@ abstract class BinnAbstract
         }
 
         if (is_array($value)) {
-            if (!$this->isAssoc($value)) {
+            if (!$this->isArrayAssoc($value)) {
                 return self::BINN_LIST;
             }
 
@@ -224,10 +249,25 @@ abstract class BinnAbstract
      * @param array $arr
      * @return bool
      */
-    protected function isAssoc($arr)
+    protected static function isArrayAssoc($arr)
     {
         if (array() === $arr) return false;
         return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
+    /**
+     * @param $arr
+     * @return bool
+     */
+    protected static function isArrayObject($arr)
+    {
+        foreach(array_keys($arr) as $key) {
+            if (!is_int($key)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
