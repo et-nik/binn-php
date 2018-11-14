@@ -224,7 +224,7 @@ class BinnObject extends BinnAbstract
      * @param $array
      * @return bool
      */
-    public function validArray($array)
+    public static function validArray($array)
     {
         $array = (array)$array;
         if (self::isArrayObject($array)) {
