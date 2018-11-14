@@ -21,8 +21,10 @@ use Knik\Binn\Exceptions\InvalidArrayException;
  * @method BinnList addObject(Binn $value)
  *
  */
-class BinnList extends Binn
+class BinnList extends BinnAbstract
 {
+    protected $binnType = self::BINN_LIST;
+
     /**
      * @var array
      */
@@ -46,7 +48,6 @@ class BinnList extends Binn
 
     public function __construct($binnString = '')
     {
-        $this->binnType = self::BINN_LIST;
         $this->binnClass = self::class;
 
         if ($binnString != '') {
@@ -105,84 +106,32 @@ class BinnList extends Binn
             : $this->getInt32Binsize($count);
 
         foreach ($this->binnArr as &$arr) {
-            switch ($arr[self::KEY_TYPE]) {
-                case self::BINN_BOOL:
-                    $this->binnString .= $arr[self::KEY_VAL] ? pack("C", self::BINN_TRUE) : pack("C", self::BINN_FALSE);
-                    break;
+            $type = $arr[self::KEY_TYPE];
+            $storageType = $this->storageType($type);
 
-                case self::BINN_TRUE:
-                    $this->binnString .= pack("C", self::BINN_TRUE);
-                    break;
+            if ($type === self::BINN_BOOL) {
+                $this->binnString .= $arr[self::KEY_VAL]
+                    ? $this->packType(self::BINN_TRUE)
+                    : $this->packType(self::BINN_FALSE);
 
-                case self::BINN_FALSE:
-                    $this->binnString .= pack("C", self::BINN_FALSE);
-                    break;
+                continue;
+            }
 
-                case self::BINN_UINT8:
-                    $this->binnString .= pack("C", self::BINN_UINT8);
-                    $this->binnString .= pack("C", $arr[self::KEY_VAL]);
-                    break;
-
-                case self::BINN_UINT16:
-                    $this->binnString .= pack("C", self::BINN_UINT16);
-                    $this->binnString .= pack("n", $arr[self::KEY_VAL]);
-                    break;
-
-                case self::BINN_UINT32:
-                    $this->binnString .= pack("C", self::BINN_UINT32);
-                    $this->binnString .= pack("N", $arr[self::KEY_VAL]);
-                    break;
-
-                case self::BINN_UINT64:
-                    $this->binnString .= pack("C", self::BINN_UINT64);
-                    $this->binnString .= pack("J", $arr[self::KEY_VAL]);
-                    break;
-
-                case self::BINN_INT8:
-                    $this->binnString .= pack("C", self::BINN_UINT8);
-                    $this->binnString .= pack("c", $arr[self::KEY_VAL]);
-                    break;
-
-                case self::BINN_INT16:
-                    $this->binnString .= pack("C", self::BINN_INT16);
-                    $this->binnString .= strrev(pack("s", $arr[self::KEY_VAL]));
-                    break;
-
-                case self::BINN_INT32:
-                    $this->binnString .= pack("C", self::BINN_INT32);
-                    $this->binnString .= strrev(pack("l", $arr[self::KEY_VAL]));
-                    break;
-
-                case self::BINN_INT64:
-                    $this->binnString .= pack("C", self::BINN_INT64);
-                    $this->binnString .= strrev(pack("q", $arr[self::KEY_VAL]));
-                    break;
-
-                case self::BINN_FLOAT32:
-                    $this->binnString .= pack("C", self::BINN_FLOAT32);
-                    $this->binnString .= strrev(pack("G", $arr[self::KEY_VAL]));
-                    break;
-
-                case self::BINN_FLOAT64:
-                    $this->binnString .= pack("C", self::BINN_FLOAT64);
-                    $this->binnString .= strrev(pack("E", $arr[self::KEY_VAL]));
-                    break;
-
-                case self::BINN_STRING:
-                    $this->binnString .= pack("C", self::BINN_STRING);
-
-                    if ($arr[self::KEY_SIZE] <= 127) {
-                        $this->binnString .= pack("C", $arr[self::KEY_SIZE]);
-                    } else {
-                        $this->binnString .= $this->getInt32Binsize($arr[self::KEY_SIZE]);
-                    }
-
-                    $this->binnString .= pack("a*x", $arr[self::KEY_VAL]);
-                    break;
-
-                case self::BINN_LIST:
-                    $this->binnString .= $arr[self::KEY_VAL]->getBinnVal();
-                    break;
+            if ($storageType === self::BINN_STORAGE_QWORD
+                || $storageType === self::BINN_STORAGE_DWORD
+                || $storageType === self::BINN_STORAGE_WORD
+                || $storageType === self::BINN_STORAGE_BYTE
+                || $storageType === self::BINN_STORAGE_NOBYTES
+            ) {
+                $this->binnString .= $this->packType($arr[self::KEY_TYPE]);
+                $this->binnString .= $this->pack($arr[self::KEY_TYPE], $arr[self::KEY_VAL]);
+            } else if ($storageType === self::BINN_STORAGE_STRING) {
+                $this->binnString .= $this->packType(self::BINN_STRING);
+                $this->binnString .= $this->packSize($arr[self::KEY_SIZE]);
+                $this->binnString .= $this->pack(self::BINN_STRING, $arr[self::KEY_VAL]);
+                $this->binnString .= $this->pack(self::BINN_NULL);
+            } else if ($storageType === self::BINN_STORAGE_CONTAINER) {
+                $this->binnString .= $arr[self::KEY_VAL]->getBinnVal();
             }
         }
 
@@ -207,8 +156,9 @@ class BinnList extends Binn
 
         foreach ($array as $item) {
             $type = $this->detectType($item);
+            $storageType = $this->storageType($type);
 
-            if (($type & self::BINN_STORAGE_CONTAINER) === self::BINN_STORAGE_CONTAINER) {
+            if ($storageType === self::BINN_STORAGE_CONTAINER) {
                 $binn = new BinnList();
                 $binn->serialize($item);
                 $item = $binn;
@@ -249,79 +199,17 @@ class BinnList extends Binn
             $type = $this->compressInt($type, $value);
         }
 
-        // Data size
-        switch ($type) {
-            case self::BINN_BOOL:
-            case self::BINN_TRUE:
-            case self::BINN_FALSE:
-                $metaSize = 1;
-                $dataSize = 0;
-                break;
+        $size = $this->getTypeSize($type, $value);
 
-            case self::BINN_INT8:
-            case self::BINN_UINT8:
-                $metaSize = 1;
-                $dataSize = 1;
-                break;
-
-            case self::BINN_INT16:
-            case self::BINN_UINT16:
-                $metaSize = 1;
-                $dataSize = 2;
-                break;
-
-            case self::BINN_INT32:
-            case self::BINN_UINT32:
-                $metaSize = 1;
-                $dataSize = 4;
-                break;
-
-            case self::BINN_INT64:
-            case self::BINN_UINT64:
-                $metaSize = 1;
-                $dataSize = 8;
-                break;
-
-            case self::BINN_FLOAT32:
-                $metaSize = 1;
-                $dataSize = 4;
-                break;
-
-            case self::BINN_FLOAT64:
-                $metaSize = 1;
-                $dataSize = 8;
-                break;
-
-            case self::BINN_STRING:
-                $dataSize = strlen($value);
-
-                $metaSize = $dataSize > 127 ? 4 : 1; // size byte
-                $metaSize += 2; // type byte + null terminated
-                break;
-
-            case self::BINN_LIST:
-            case self::BINN_MAP:
-            case self::BINN_OBJECT:
-            case self::BINN_STORAGE_CONTAINER:
-                $dataSize = $value->binnSize();
-                $metaSize = 0;
-                break;
-
-            default:
-                // Unknown type
-                return;
-                break;
-        }
-
-        $this->dataSize += $dataSize;
-        $this->metaSize += $metaSize;
+        $this->dataSize += $size['data'];
+        $this->metaSize += $size['meta'];
 
         $this->count++;
 
         $this->binnArr[] = [
             self::KEY_TYPE      => $type,
             self::KEY_VAL       => $value,
-            self::KEY_SIZE      => $dataSize
+            self::KEY_SIZE      => $size['data']
         ];
     }
 
@@ -331,140 +219,83 @@ class BinnList extends Binn
     private function _binnLoad($binstring)
     {
         $pos = 1; // Position
-        $size_bytes = unpack("C", $binstring[$pos])[1];
+        $sizeBytes = $this->unpack(self::BINN_UINT8, $binstring[$pos]);
 
         // Size
-        if ($size_bytes & 1 << 7) {
-            $size_bytes = unpack("N", substr($binstring, $pos, 4))[1];
-            $this->size = ($size_bytes &~ (1 << 31)); // Cut bit
+        if ($sizeBytes & 1 << 7) {
+            $sizeBytes = $this->unpack(self::BINN_UINT32, substr($binstring, $pos, 4));
+            $this->size = ($sizeBytes &~ (1 << 31)); // Cut bit
             $pos += 4;
         } else {
-            $this->size = $size_bytes;
+            $this->size = $sizeBytes;
             $pos += 1;
         }
 
-        unset($size_bytes);
+        unset($sizeBytes);
 
-        $count_bytes = unpack("C", $binstring[$pos])[1];
+        $countBytes = $this->unpack(self::BINN_UINT8, $binstring[$pos]);
 
         // Size
-        if ($count_bytes & 1 << 7) {
-            $count_bytes = unpack("N", substr($binstring,$pos, 4))[1];
-            $this->count = ($count_bytes &~ (1 << 31)); // Cut bit
+        if ($countBytes & 1 << 7) {
+            $countBytes = $this->unpack(self::BINN_UINT32, substr($binstring, $pos, 4));
+            $this->count = ($countBytes &~ (1 << 31)); // Cut bit
             $pos += 4;
         } else {
-            $this->count = $count_bytes;
+            $this->count = $countBytes;
             $pos += 1;
         }
 
-        unset($count_bytes);
+        unset($countBytes);
 
         // Data
         $stop_while = false;
         while ($pos < $this->size && !$stop_while) {
-            $byte_var_type = @unpack("C", $binstring[$pos])[1];
+            $varType = $this->unpack(self::BINN_UINT8, $binstring[$pos]);
+            $varStorageType = $this->storageType($varType);
             $pos += 1;
 
+            if ($varStorageType === self::BINN_STORAGE_QWORD
+                || $varStorageType === self::BINN_STORAGE_DWORD
+                || $varStorageType === self::BINN_STORAGE_WORD
+                || $varStorageType === self::BINN_STORAGE_BYTE
+                || $varStorageType === self::BINN_STORAGE_NOBYTES
+            ) {
+                $varSize = $this->getTypeSize($varType);
+                $val = $this->unpack($varType, substr($binstring, $pos, $varSize['data']));
+                $this->_addVal($varType, $val);
+                $pos += $varSize['data'];
 
-            // $cur_type = strtotime(base_convert($byte_var_type, 10, 16));
+            } else if ($varStorageType === self::BINN_STRING ) {
+                $stringSize = unpack("C", $binstring[$pos])[1];
 
-            switch ($byte_var_type) {
-                case self::BINN_TRUE:
-                    $this->_addVal(self::BINN_BOOL, true);
-                    break;
-
-                case self::BINN_FALSE:
-                    $this->_addVal(self::BINN_BOOL, false);
-                    break;
-
-                case self::BINN_UINT64:
-                    $this->_addVal(self::BINN_UINT64, unpack("J", substr($binstring, $pos, 8))[1]);
-                    $pos += 8;
-                    break;
-
-                case self::BINN_UINT32:
-                    $this->_addVal(self::BINN_UINT32, unpack("N", substr($binstring, $pos, 4))[1]);
+                // Size
+                if ($stringSize & 1 << 7) {
+                    $stringSize = unpack("N", substr($binstring, $pos, 4))[1];
+                    $stringSize = ($stringSize &~ (1 << 31)); // Cut bit
                     $pos += 4;
-                    break;
-
-                case self::BINN_UINT16:
-                    $this->_addVal(self::BINN_UINT16, unpack("n", substr($binstring, $pos, 2))[1]);
-                    $pos += 2;
-                    break;
-
-                case self::BINN_UINT8:
-                    $this->_addVal(self::BINN_UINT8, unpack("C", substr($binstring, $pos, 1))[1]);
+                } else {
                     $pos += 1;
-                    break;
+                }
 
-                case self::BINN_INT8:
-                    $this->_addVal(self::BINN_INT8, unpack("c", substr($binstring, $pos, 1))[1]);
-                    $pos += 1;
-                    break;
+                $this->_addVal(self::BINN_STRING, unpack("a*", substr($binstring, $pos, $stringSize))[1]);
+                $pos += $stringSize;
+                $pos += 1; // Null byte
+            } else if ($varStorageType === self::BINN_STORAGE_CONTAINER) {
+                $list_size = unpack("C", $binstring[$pos])[1];
 
-                case self::BINN_INT16:
-                    $this->_addVal(self::BINN_INT16, unpack("s", strrev(substr($binstring, $pos, 2)))[1]);
-                    $pos += 2;
-                    break;
+                // Size
+                if ($list_size & 1 << 7) {
+                    $list_size = unpack("N", substr($binstring, $pos, 4))[1];
+                    $list_size = ($list_size &~ (1 << 31)); // Cut bit
+                }
 
-                case self::BINN_INT32:
-                    $this->_addVal(self::BINN_INT32, unpack("i", strrev(substr($binstring, $pos, 4)))[1]);
-                    $pos += 4;
-                    break;
+                $substring = substr($binstring, $pos-1, $list_size);
+                $this->_addVal($varType, new BinnList($substring));
 
-                case self::BINN_INT64:
-                    $this->_addVal(self::BINN_INT64, unpack("q", strrev(substr($binstring, $pos, 8)))[1]);
-                    $pos += 8;
-                    break;
-
-                case self::BINN_FLOAT32:
-                    $this->_addVal(self::BINN_FLOAT32, unpack("G", strrev(substr($binstring, $pos, 4)))[1]);
-                    $pos += 4;
-                    break;
-
-                case self::BINN_FLOAT64:
-                    $this->_addVal(self::BINN_FLOAT64, unpack("E", strrev(substr($binstring, $pos, 8)))[1]);
-                    $pos += 8;
-                    break;
-
-                case self::BINN_STRING:
-                    $string_size = unpack("C", $binstring[$pos])[1];
-
-                    // Size
-                    if ($string_size & 1 << 7) {
-                        $string_size = unpack("N", substr($binstring, $pos, 4))[1];
-                        $string_size = ($string_size &~ (1 << 31)); // Cut bit
-                        $pos += 4;
-                    } else {
-                        $pos += 1;
-                    }
-
-                    $this->_addVal(self::BINN_STRING, unpack("a*", substr($binstring, $pos, $string_size))[1]);
-                    $pos += $string_size;
-                    $pos += 1; // Null byte
-                    break;
-
-                case self::BINN_LIST:
-                    $list_size = unpack("C", $binstring[$pos])[1];
-
-                    // Size
-                    if ($list_size & 1 << 7) {
-                        $list_size = unpack("N", substr($binstring, $pos, 4))[1];
-                        $list_size = ($list_size &~ (1 << 31)); // Cut bit
-                    }
-
-                    $substring = substr($binstring, $pos-1, $list_size);
-                    $this->_addVal(self::BINN_LIST, new BinnList($substring));
-
-                    $pos += ($list_size-1);
-
-                    break;
-
-                default:
-                    $stop_while = true;
-                    break;
+                $pos += ($list_size-1);
+            } else {
+                $stop_while = true;
             }
-
         }
     }
 }
