@@ -155,7 +155,7 @@ class BinnListTest extends TestCase
     {
         $array = [];
         for ($i = 0; $i < 512; $i++) {
-            $array[] = random_int(BinnList::INT64_MIN, BinnList::INT64_MAX);
+            $array[] = rand(BinnList::INT64_MIN, BinnList::INT64_MAX);
         }
 
         $binn1 = new BinnList;

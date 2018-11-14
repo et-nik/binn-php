@@ -60,7 +60,7 @@ class BinnTest extends TestCase
     {
         $array = [];
         for ($i = 0; $i < 512; $i++) {
-            $array[] = random_int(-256, 256);
+            $array[] = rand(-256, 256);
         }
 
         $array[] = implode('', $array);
