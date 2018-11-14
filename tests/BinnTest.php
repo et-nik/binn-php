@@ -78,7 +78,7 @@ class BinnTest extends TestCase
     {
         $binn1 = new Binn;
         $array = [1 => true, 2 => false, 3 => 'a', 4 => 'abc', 8 => 0, 12 => 1, 13 => -1, 17 => $binn1::INT8_MIN,
-            19 => $binn1::INT16_MIN, 20 => $binn1::INT32_MIN, 24 => PHP_INT_MIN, 26 => PHP_INT_MAX,
+            19 => $binn1::INT16_MIN, 20 => $binn1::INT32_MIN, 24 => -9223372036854775807, 26 => Binn::INT64_MAX,
             28 => 2.3, 32 => -2.3, 55 => 45.0034525, 56 => -45.0034525, 57 => null];
 
         $serialized = $binn1->serialize($array);
