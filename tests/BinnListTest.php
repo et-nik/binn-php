@@ -110,6 +110,7 @@ class BinnListTest extends TestCase
         $binn1->addStr('text-text-text-text-text-text-text-text-text-text-text-tex'); // length 58
         $binn1->addStr('text-text-text-text-text-text-text-text-text-text-text-text'); // length 59
         $binn1->addBool(false);
+        $binn1->addBool(true);
 
         $arr = $binn1->getBinnArr();
         $binnString = $binn1->getBinnVal();
@@ -124,6 +125,10 @@ class BinnListTest extends TestCase
     {
         $binn = new BinnList();
         $this->assertEquals(['Hello', ' World!'], $binn->unserialize("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00"));
+
+        $binn = new BinnList();
+        $binn->binnOpen("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00");
+        $this->assertEquals(['Hello', ' World!'], $binn->unserialize());
     }
 
     public function testSerialize()
@@ -140,6 +145,27 @@ class BinnListTest extends TestCase
         $binnArray = $binn->unserialize($binnString);
 
         $this->assertEquals($arrayWithFloat, $binnArray);
+
+        $binn2 = new BinnList();
+        $binn2->addUint8(512)->addInt16(-521);
+        $this->assertEquals("\xE0\x08\x02\x20\x00\x41\xFD\xF7", $binn2->serialize());
+    }
+
+    public function testSerializeBigSize()
+    {
+        $array = [];
+        for ($i = 0; $i < 512; $i++) {
+            $array[] = random_int(BinnList::INT64_MIN, BinnList::INT64_MAX);
+        }
+
+        $binn1 = new BinnList;
+        $serialized = $binn1->serialize($array);
+
+        $binn2 = new BinnList;
+        $binn2->binnOpen($serialized);
+        $unserialized = $binn2->unserialize();
+
+        $this->assertEquals($array, $unserialized);
     }
 
     public function testSerializeList()
@@ -156,6 +182,22 @@ class BinnListTest extends TestCase
     public function testSerializeInvalid()
     {
         $binn = new BinnList();
-        $binn->serialize(['Hello', ['assoc_key' => 'World']]);
+        $binn->serialize(['Hello', 'assoc_key' => 'World']);
+    }
+
+    /**
+     * @expectedException \Exception
+     */
+    public function testInvalidMethod()
+    {
+        $binn = new BinnList();
+        $binn->addUnknown('azaza');
+    }
+
+    public function testValidArray()
+    {
+        $this->assertTrue(BinnList::validArray([0, 1, 2]));
+        $this->assertFalse(BinnList::validArray([1 => 0, 2 => 2]));
+        $this->assertFalse(BinnList::validArray(['key' => 'val']));
     }
 }

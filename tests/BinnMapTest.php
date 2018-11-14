@@ -37,4 +37,19 @@ class BinnMapTest extends TestCase
         $this->assertEquals([1 => 'add', 2 => [-12345, 6789]], $arr);
         $this->assertEquals($binnString, $binn->serialize());
     }
+
+    public function testMapOpen()
+    {
+        $binnString = "\xE1\x1A\x02\x00\x00\x00\x01\xA0\x03add\x00\x00\x00\x00\x02\xE0\x09\x02\x41\xCF\xC7\x40\x1A\x85";
+        $binn = new BinnMap();
+        $binn->binnOpen($binnString);
+        $this->assertEquals([1 => 'add', 2 => [-12345, 6789]], $binn->unserialize());
+    }
+
+    public function testValidArray()
+    {
+        $this->assertFalse(BinnMap::validArray([0, 1, 2]));
+        $this->assertTrue(BinnMap::validArray([1 => 0, 2 => 2]));
+        $this->assertFalse(BinnMap::validArray(['key' => 'val']));
+    }
 }

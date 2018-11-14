@@ -187,20 +187,11 @@ abstract class BinnAbstract
             }
         }
 
-        if (is_object($value)) {
-            return self::BINN_OBJECT;
-        }
-
         if (is_array($value)) {
-            if (!$this->isArrayAssoc($value)) {
-                return self::BINN_LIST;
-            }
-
-            // TODO: detect map and object
-            if (count(array_filter(array_keys($value), 'is_string')) > 0) {
-                return self::BINN_OBJECT;
-            } else {
-                return self::BINN_MAP;
+            foreach ($this->containersClasses as $contanerType => $containersClass) {
+                if ($containersClass::validArray($value)) {
+                    return $contanerType;
+                }
             }
         }
 
@@ -221,7 +212,7 @@ abstract class BinnAbstract
                 return self::BINN_INT8;
             } else if ($value >= self::INT16_MIN) {
                 return self::BINN_INT16;
-            } else if ($value >= self::BINN_INT32) {
+            } else if ($value >= self::INT32_MIN) {
                 return self::BINN_INT32;
             } else {
                 return self::BINN_INT64;
@@ -251,6 +242,7 @@ abstract class BinnAbstract
      */
     protected static function isArrayAssoc($arr)
     {
+        $arr = (array)$arr;
         if (array() === $arr) return false;
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
@@ -338,53 +330,57 @@ abstract class BinnAbstract
      */
     protected function compressInt($type, $val)
     {
-        $type2 = $type;
+        $newType = $type;
 
         if ($val >= 0) {
             // Convert to unsigned
-            switch ($type) {
+            switch ($newType) {
                 case self::BINN_INT64:
-                    $type = self::BINN_UINT64;
+                    $newType = self::BINN_UINT64;
                     break;
 
                 case self::BINN_INT32:
-                    $type = self::BINN_UINT32;
+                    $newType = self::BINN_UINT32;
                     break;
 
                 case self::BINN_INT16:
-                    $type = self::BINN_UINT16;
+                    $newType = self::BINN_UINT16;
+                    break;
+
+                case self::BINN_INT8:
+                    $newType = self::BINN_UINT8;
                     break;
             }
         }
 
-        if (in_array($type, [self::BINN_INT64, self::BINN_INT32, self::BINN_INT16])) {
+        if (in_array($newType, [self::BINN_INT64, self::BINN_INT32, self::BINN_INT16])) {
             // Signed
             if ($val >= self::INT8_MIN) {
-                $type2 = self::BINN_INT8;
+                $newType = self::BINN_INT8;
             }
             elseif ($val >= self::INT16_MIN) {
-                $type2 = self::BINN_INT16;
+                $newType = self::BINN_INT16;
             }
             elseif ($val >= self::INT32_MIN) {
-                $type2 = self::BINN_INT32;
+                $newType = self::BINN_INT32;
             }
         }
 
-        if (in_array($type, [self::BINN_UINT64, self::BINN_UINT32, self::BINN_UINT16])) {
+        if (in_array($newType, [self::BINN_UINT64, self::BINN_UINT32, self::BINN_UINT16])) {
             // Unsigned
 
             if ($val <= self::UINT8_MAX) {
-                $type2 = self::BINN_UINT8;
+                $newType = self::BINN_UINT8;
             }
             elseif ($val <= self::UINT16_MAX) {
-                $type2 = self::BINN_UINT16;
+                $newType = self::BINN_UINT16;
             }
             elseif ($val <= self::UINT32_MAX) {
-                $type2 = self::BINN_UINT32;
+                $newType = self::BINN_UINT32;
             }
         }
 
-        return $type2;
+        return $newType;
     }
 
     public function binnFree()
@@ -411,35 +407,31 @@ abstract class BinnAbstract
      */
     protected function unpack($varType, $value)
     {
-        if (($varType & self::BINN_STORAGE_CONTAINER) == self::BINN_STORAGE_CONTAINER) {
-
-        }
-            
-        if ($varType == self::BINN_TRUE) {
+        if ($varType === self::BINN_TRUE) {
             return true;
-        } else if ($varType == self::BINN_FALSE) {
+        } else if ($varType === self::BINN_FALSE) {
             return false;
-        } else if ($varType == self::BINN_UINT64) {
+        } else if ($varType === self::BINN_UINT64) {
             return unpack("J", $value)[1];
-        } else if ($varType == self::BINN_UINT32) {
+        } else if ($varType === self::BINN_UINT32) {
             return unpack("N", $value)[1];
-        } else if ($varType == self::BINN_UINT16) {
+        } else if ($varType === self::BINN_UINT16) {
             return unpack("n", $value)[1];
         } else if ($varType == self::BINN_UINT8) {
             return unpack("C", $value)[1];
-        } else if ($varType == self::BINN_INT8) {
+        } else if ($varType === self::BINN_INT8) {
             return unpack("c", $value)[1];
-        } else if ($varType == self::BINN_INT16) {
+        } else if ($varType === self::BINN_INT16) {
             return unpack("s", strrev($value))[1];
-        } else if ($varType == self::BINN_INT32) {
+        } else if ($varType === self::BINN_INT32) {
             return unpack("i", strrev($value))[1];
-        } else if ($varType == self::BINN_INT64) {
+        } else if ($varType === self::BINN_INT64) {
             return unpack("q", strrev($value))[1];
-        } else if ($varType == self::BINN_FLOAT32) {
+        } else if ($varType === self::BINN_FLOAT32) {
             return unpack("G", strrev($value))[1];
-        } else if ($varType == self::BINN_FLOAT64) {
+        } else if ($varType === self::BINN_FLOAT64) {
             return unpack("E", strrev($value))[1];
-        } else if ($varType == self::BINN_STRING) {
+        } else if ($varType === self::BINN_STRING) {
             return unpack("a*", $value)[1];
         }
         
@@ -451,37 +443,33 @@ abstract class BinnAbstract
      */
     protected function pack($varType, $value = null)
     {
-        if ($this->storageType($varType) === self::BINN_STORAGE_CONTAINER) {
-
-        }
-
-        if ($varType == self::BINN_TRUE) {
+        if ($varType === self::BINN_TRUE) {
             return pack("C", self::BINN_TRUE);
-        } else if ($varType == self::BINN_FALSE) {
+        } else if ($varType === self::BINN_FALSE) {
             return pack("C", self::BINN_FALSE);
-        } else if ($varType == self::BINN_UINT64) {
+        } else if ($varType === self::BINN_UINT64) {
             return pack("J", $value);
-        } else if ($varType == self::BINN_UINT32) {
+        } else if ($varType === self::BINN_UINT32) {
             return pack("N", $value);
-        } else if ($varType == self::BINN_UINT16) {
+        } else if ($varType === self::BINN_UINT16) {
             return pack("n", $value);
-        } else if ($varType == self::BINN_UINT8) {
+        } else if ($varType === self::BINN_UINT8) {
             return pack("C", $value);
-        } else if ($varType == self::BINN_INT8) {
+        } else if ($varType === self::BINN_INT8) {
             return pack("c", $value);
-        } else if ($varType == self::BINN_INT16) {
+        } else if ($varType === self::BINN_INT16) {
             return strrev(pack("s", $value));
-        } else if ($varType == self::BINN_INT32) {
+        } else if ($varType === self::BINN_INT32) {
             return strrev(pack("i", $value));
-        } else if ($varType == self::BINN_INT64) {
+        } else if ($varType === self::BINN_INT64) {
             return strrev(pack("q", $value));
-        } else if ($varType == self::BINN_FLOAT32) {
+        } else if ($varType === self::BINN_FLOAT32) {
             return strrev(pack("G", $value));
-        } else if ($varType == self::BINN_FLOAT64) {
+        } else if ($varType === self::BINN_FLOAT64) {
             return strrev(pack("E", $value));
-        } else if ($varType == self::BINN_STRING) {
+        } else if ($varType === self::BINN_STRING) {
             return pack("a*", $value);
-        } else if ($varType == self::BINN_NULL) {
+        } else if ($varType === self::BINN_NULL) {
             return pack("x");
         }
         
@@ -513,7 +501,10 @@ abstract class BinnAbstract
         $size = ['meta' => 0, 'data' => 0];
         $storageType = $this->storageType($type);
 
-        if ($type == self::BINN_BOOL) {
+        if ($type == self::BINN_BOOL
+            || $type == self::BINN_TRUE
+            || $type == self::BINN_FALSE
+        ) {
             $size = ['meta' => 1, 'data' => 0];
         } else if ($storageType === self::BINN_STORAGE_CONTAINER) {
             $size = ['meta' => 0, 'data' => $value->binnSize()];

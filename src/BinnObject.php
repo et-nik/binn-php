@@ -112,6 +112,7 @@ class BinnObject extends BinnAbstract
                     if ($containerType === $varType) {
                         $container = new $containersClass($substring);
                         $this->_addVal($varKey, $varType, $container);
+                        break;
                     }
                 }
 
@@ -159,10 +160,11 @@ class BinnObject extends BinnAbstract
                 || $storageType === self::BINN_STORAGE_DWORD
                 || $storageType === self::BINN_STORAGE_WORD
                 || $storageType === self::BINN_STORAGE_BYTE
-                || $storageType === self::BINN_STORAGE_NOBYTES
             ) {
                 $this->binnString .= $this->packType($arr[self::KEY_TYPE]);
                 $this->binnString .= $this->pack($arr[self::KEY_TYPE], $arr[self::KEY_VAL]);
+            } else if ($storageType === self::BINN_STORAGE_NOBYTES) {
+                $this->binnString .= $this->packType($arr[self::KEY_TYPE]);
             } else if ($storageType === self::BINN_STORAGE_STRING) {
                 $this->binnString .= $this->packType(self::BINN_STRING);
                 $this->binnString .= $this->packSize($arr[self::KEY_SIZE]);
@@ -227,6 +229,13 @@ class BinnObject extends BinnAbstract
     public static function validArray($array)
     {
         $array = (array)$array;
+
+        /*
+        if (count(array_filter(array_keys($array), 'is_string')) > 0) {
+            return true;
+        }
+        */
+
         if (self::isArrayObject($array)) {
             return true;
         }
@@ -255,9 +264,15 @@ class BinnObject extends BinnAbstract
             $storageType = $this->storageType($type);
 
             if ($storageType === self::BINN_STORAGE_CONTAINER) {
-                $binn = new BinnList();
-                $binn->serialize($item);
-                $item = $binn;
+                foreach ($this->containersClasses as $contanerType => $containersClass)
+                {
+                    if ($containersClass::validArray($item)) {
+                        $container = new $containersClass();
+                        $container->serialize($item);
+                        $item = $container;
+                        break;
+                    }
+                }
             }
 
             $this->_addVal($key, $type, $item);

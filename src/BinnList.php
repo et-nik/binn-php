@@ -118,10 +118,11 @@ class BinnList extends BinnAbstract
                 || $storageType === self::BINN_STORAGE_DWORD
                 || $storageType === self::BINN_STORAGE_WORD
                 || $storageType === self::BINN_STORAGE_BYTE
-                || $storageType === self::BINN_STORAGE_NOBYTES
             ) {
                 $this->binnString .= $this->packType($arr[self::KEY_TYPE]);
                 $this->binnString .= $this->pack($arr[self::KEY_TYPE], $arr[self::KEY_VAL]);
+            } else if ($storageType === self::BINN_STORAGE_NOBYTES) {
+                $this->binnString .= $this->packType($arr[self::KEY_TYPE]);
             } else if ($storageType === self::BINN_STORAGE_STRING) {
                 $this->binnString .= $this->packType(self::BINN_STRING);
                 $this->binnString .= $this->packSize($arr[self::KEY_SIZE]);
@@ -172,9 +173,15 @@ class BinnList extends BinnAbstract
             $storageType = $this->storageType($type);
 
             if ($storageType === self::BINN_STORAGE_CONTAINER) {
-                $binn = new BinnList();
-                $binn->serialize($item);
-                $item = $binn;
+                foreach ($this->containersClasses as $contanerType => $containersClass)
+                {
+                    if ($containersClass::validArray($item)) {
+                        $container = new $containersClass();
+                        $container->serialize($item);
+                        $item = $container;
+                        break;
+                    }
+                }
             }
 
             $this->_addVal($type, $item);
@@ -312,6 +319,7 @@ class BinnList extends BinnAbstract
                     if ($containerType === $varType) {
                         $container = new $containersClass($substring);
                         $this->_addVal($varType, $container);
+                        break;
                     }
                 }
 

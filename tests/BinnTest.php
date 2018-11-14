@@ -26,6 +26,9 @@ class BinnTest extends TestCase
         // Object
         $binnString = $binn->serialize(['hello' => 'world']);
         $this->assertEquals("\xE2\x11\x01\x05hello\xA0\x05world\x00", $binnString);
+
+        // Null
+        $binnString = $binn->serialize(null);
     }
 
     public function testUnserialize()
@@ -43,5 +46,47 @@ class BinnTest extends TestCase
         // Object
         $binnString = $binn->unserialize("\xE2\x11\x01\x05hello\xA0\x05world\x00");
         $this->assertEquals(['hello' => 'world'], $binnString);
+
+        // Empty
+        $binn = new Binn;
+        $this->assertCount(0, $binn->unserialize());
+
+        // String
+        $binn = new Binn;
+        $this->assertEquals(null, $binn->unserialize("\xA0\x05Hello\x00"));
+    }
+
+    public function testSerializeUnserializeBigCount()
+    {
+        $array = [];
+        for ($i = 0; $i < 512; $i++) {
+            $array[] = random_int(-256, 256);
+        }
+
+        $array[] = implode('', $array);
+
+        $binn1 = new Binn;
+        $serialized = $binn1->serialize($array);
+
+        $binn2 = new Binn;
+        $unserialized = $binn2->unserialize($serialized);
+
+        $this->assertEquals($array, $unserialized);
+    }
+
+    public function testSerializeTypes()
+    {
+        $binn1 = new Binn;
+        $array = [1 => true, 2 => false, 3 => 'a', 4 => 'abc', 8 => 0, 12 => 1, 13 => -1, 17 => $binn1::INT8_MIN,
+            19 => $binn1::INT16_MIN, 20 => $binn1::INT32_MIN, 24 => PHP_INT_MIN, 26 => PHP_INT_MAX,
+            28 => 2.3, 32 => -2.3, 55 => 45.0034525, 56 => -45.0034525, 57 => null];
+
+        $serialized = $binn1->serialize($array);
+        file_put_contents('test.bin', $serialized);
+
+        $binn2 = new Binn;
+        $unserialized = $binn2->unserialize($serialized);
+
+        $this->assertEquals($array, $unserialized, '', 0.000001);
     }
 }

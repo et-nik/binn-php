@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use \Knik\Binn\BinnObject;
+use \Knik\Binn\Binn;
 
 /**
  * @covers Knik\Binn\BinnObject<extended>
@@ -69,12 +70,18 @@ class BinnObjectTest extends TestCase
             Eric\x00       // [data] (null terminated)
         */
 
-        /*
         $binnString = "\xE0\x2B\x02\xE2\x14\x02\x02id\x20\x01\x04name\xA0\x04John\x00\xE2\x14\x02\x02id\x20\x02\x04name\xA0\x04Eric\x00";
 
-        $binn = new BinnObject($binnString);
-        $arr = $binn->getBinnArr();
-        $this->assertEquals([ ["id": 1, "name": "John"], ["id": 2, "name": "Eric"] ], $arr);
-        */
+        $binn = new Binn();
+
+        $arr = $binn->unserialize($binnString);
+        $this->assertEquals([ ["id" => 1, "name" => "John"], ["id" => 2, "name" => "Eric"] ], $arr);
+    }
+
+    public function testValidArray()
+    {
+        $this->assertFalse(BinnObject::validArray([0, 1, 2]));
+        $this->assertFalse(BinnObject::validArray([1 => 0, 2 => 2]));
+        $this->assertTrue(BinnObject::validArray(['key' => 'val']));
     }
 }

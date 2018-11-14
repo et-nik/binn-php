@@ -17,11 +17,6 @@
 
 namespace Knik\Binn;
 
-use Knik\Binn\BinnAbstract;
-use Knik\Binn\BinnList;
-use Knik\Binn\BinnMap;
-use Knik\Binn\BinnObject;
-
 class Binn extends BinnAbstract {
 
     /**
@@ -58,10 +53,6 @@ class Binn extends BinnAbstract {
      */
     public function serialize($array = [])
     {
-        if (empty($array)) {
-            return $this->getBinnVal();
-        }
-
         $this->binnFree();
 
         foreach ($this->containersClasses as $contanerType => $containersClass)
