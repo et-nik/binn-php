@@ -428,9 +428,9 @@ abstract class BinnAbstract
         } else if ($varType === self::BINN_INT64) {
             return unpack("q", strrev($value))[1];
         } else if ($varType === self::BINN_FLOAT32) {
-            return unpack("G", strrev($value))[1];
+            return unpack("f", strrev($value))[1];
         } else if ($varType === self::BINN_FLOAT64) {
-            return unpack("E", strrev($value))[1];
+            return unpack("d", strrev($value))[1];
         } else if ($varType === self::BINN_STRING) {
             return unpack("a*", $value)[1];
         }
@@ -464,9 +464,9 @@ abstract class BinnAbstract
         } else if ($varType === self::BINN_INT64) {
             return strrev(pack("q", $value));
         } else if ($varType === self::BINN_FLOAT32) {
-            return strrev(pack("G", $value));
+            return strrev(pack("f", $value));
         } else if ($varType === self::BINN_FLOAT64) {
-            return strrev(pack("E", $value));
+            return strrev(pack("d", $value));
         } else if ($varType === self::BINN_STRING) {
             return pack("a*", $value);
         } else if ($varType === self::BINN_NULL) {
