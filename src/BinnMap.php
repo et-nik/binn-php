@@ -99,7 +99,7 @@ class BinnMap extends BinnAbstract
         // Data
         $stopWhile = false;
         while ($pos < $this->size && !$stopWhile) {
-            $varKey = $this->unpack(self::BINN_UINT32, substr($binnString, $pos, 4));
+            $varKey = $this->unpack(self::BINN_INT32, substr($binnString, $pos, 4));
             $pos += 4;
 
             $varType = $this->unpack(self::BINN_UINT8, $binnString[$pos]);
@@ -184,7 +184,7 @@ class BinnMap extends BinnAbstract
             $type = $arr[self::KEY_TYPE];
             $storageType = $this->storageType($type);
 
-            $this->binnString .= $this->pack(self::BINN_UINT32, $key);
+            $this->binnString .= $this->pack(self::BINN_INT32, $key);
 
             if ($type === self::BINN_BOOL) {
                 $this->binnString .= $arr[self::KEY_VAL]
