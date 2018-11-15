@@ -34,7 +34,7 @@ $binnString = $binn->serialize($array);
 $unserialized = $binn->unserialize($binnString); // Equal with $array
 ```
 
-Number key arrays:
+Numeric keys array:
 ```php
 $binn = new Binn;
 
@@ -44,7 +44,7 @@ $binnString = $binn->serialize($array);
 $unserialized = $binn->unserialize($binnString); // Equal with $array
 ```
 
-String key arrays:
+String keys array:
 ```php
 $binn = new Binn;
 
