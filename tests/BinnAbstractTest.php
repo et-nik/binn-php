@@ -89,6 +89,19 @@ class BinnAbstractTest extends TestCase
 
         $this->assertNull($binn->pack('Unknown', 'Unknown'));
     }
+
+    public function testGetTypeSize()
+    {
+        $binn = new BinnOver();
+
+        $this->assertEquals(['meta' => 1, 'data' => 0], $binn->getTypeSize($binn::BINN_TRUE));
+        $this->assertEquals(['meta' => 1, 'data' => 0], $binn->getTypeSize($binn::BINN_FALSE));
+        $this->assertEquals(['meta' => 3, 'data' => 1], $binn->getTypeSize($binn::BINN_STRING, 'a'));
+        $this->assertEquals(['meta' => 3, 'data' => 3], $binn->getTypeSize($binn::BINN_STRING, 'abc'));
+        $this->assertEquals(['meta' => 6, 'data' => 256], $binn->getTypeSize($binn::BINN_STRING, str_repeat('a', 256)));
+        $this->assertEquals(['meta' => 2, 'data' => 1], $binn->getTypeSize($binn::BINN_STORAGE_BLOB, 'a'));
+        $this->assertEquals(['meta' => 2, 'data' => 2], $binn->getTypeSize($binn::BINN_STORAGE_BLOB, 'ab'));
+    }
 }
 
 // Make protected methods public
@@ -127,5 +140,10 @@ class BinnOver extends BinnList
     public function unpack($varType, $value = null)
     {
         return parent::unpack($varType, $value);
+    }
+
+    public function getTypeSize($varType, $value = '')
+    {
+        return parent::getTypeSize($varType, $value);
     }
 }

@@ -90,6 +90,14 @@ class BinnTest extends TestCase
         $this->assertEquals($array, $unserialized, '', 0.000001);
     }
 
+    public function testSerializeNullContainers()
+    {
+        $binn = new Binn;
+        $binn->setContainersClasses([]);
+        $serialized = $binn->serialize(['array']);
+        $this->assertNull($serialized);
+    }
+
     public function testObject()
     {
         $array = ['name' => 'knik/binn', 'description' => 'Serialize to binary string.', 'keywords' => ["serialize", "bin"]];
