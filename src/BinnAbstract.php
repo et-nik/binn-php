@@ -136,9 +136,9 @@ abstract class BinnAbstract
      * ]
      */
     protected $containersClasses = [
-        0xE0 => \Knik\Binn\BinnList::class,
-        0xE1 => \Knik\Binn\BinnMap::class,
-        0xE2 => \Knik\Binn\BinnObject::class,
+        self::BINN_LIST     => \Knik\Binn\BinnList::class,
+        self::BINN_MAP      => \Knik\Binn\BinnMap::class,
+        self::BINN_OBJECT   => \Knik\Binn\BinnObject::class,
     ];
 
     /**
@@ -150,22 +150,24 @@ abstract class BinnAbstract
     }
 
     /**
+     * Get 4 bytes packed size. Add cut bit.
      *
      * @param int $intVal
-     *
-     * @return string   HEX string
+     * @return string
      */
     protected function getInt32Binsize($intVal = 0)
     {
-        $intVal = ($intVal | (1 << 31)); // Add byte
+        $intVal = ($intVal | (1 << 31)); // Add bit
         return $this->pack(self::BINN_UINT32, $intVal);
     }
 
     /**
-     * @param null $value
+     * Detect value type
+     *
+     * @param mixed $value
      * @return int
      */
-    protected function detectType($value = null)
+    protected function detectType($value)
     {
         if (is_bool($value)) {
             return $value ? self::BINN_TRUE : self::BINN_FALSE;
@@ -231,12 +233,21 @@ abstract class BinnAbstract
         }
     }
 
+    /**
+     * Get storage type
+     *
+     * @param $type
+     * @return int
+     */
     protected function storageType($type)
     {
         return $type & ($type ^ self::BINN_TYPE_MASK);
     }
 
     /**
+     * Array associativity check
+     * True if array is associative, False if array is sequential
+     *
      * @param array $arr
      * @return bool
      */
@@ -248,6 +259,9 @@ abstract class BinnAbstract
     }
 
     /**
+     * Array objectivity check
+     * True if array is objective, False if array is sequential or have only number keys
+     *
      * @param $arr
      * @return bool
      */
@@ -263,8 +277,8 @@ abstract class BinnAbstract
     }
 
     /**
-     *
-     *  @return int
+     * Calculate result binary Binn string size
+     * @return int
      */
     protected function calculateSize()
     {
@@ -314,6 +328,7 @@ abstract class BinnAbstract
     }
 
     /**
+     * Get binn size
      * @return int
      */
     public function binnSize()
@@ -322,6 +337,12 @@ abstract class BinnAbstract
     }
 
     /**
+     * Memory saving
+     * If it possible:
+     * Converting int64 to int32/int16/int8
+     * Converting uint64 to uint32/uint16/uint8
+     * Converting positive int to uint
+     *
      * @param int   $type
      * @param mixed   $val
      *
@@ -383,6 +404,11 @@ abstract class BinnAbstract
         return $newType;
     }
 
+    /**
+     * Clear all binn data
+     *
+     * @return $this
+     */
     public function binnFree()
     {
         // $this->binnType     = self::BINN_STORAGE_NOBYTES;
@@ -403,7 +429,11 @@ abstract class BinnAbstract
     }
 
     /**
-     * 
+     * Unpack value
+     *
+     * @param $varType
+     * @param $value
+     * @return bool|null
      */
     protected function unpack($varType, $value)
     {
@@ -439,7 +469,11 @@ abstract class BinnAbstract
     }
 
     /**
-     * 
+     * Pack value
+     *
+     * @param $varType
+     * @param mixed $value
+     * @return null|string
      */
     protected function pack($varType, $value = null)
     {
@@ -477,6 +511,8 @@ abstract class BinnAbstract
     }
 
     /**
+     * Pack varType
+     *
      * @param $type
      * @return string
      */
@@ -486,7 +522,9 @@ abstract class BinnAbstract
     }
 
     /**
-     * @param $type
+     * Pack size info
+     *
+     * @param $size
      * @return string
      */
     protected function packSize($size)
@@ -495,7 +533,15 @@ abstract class BinnAbstract
             ? $this->pack(self::BINN_UINT8, $size)
             : $this->getInt32Binsize($size);
     }
-    
+
+    /**
+     * Get size info
+     * data and meta (type info, size info, null bytes)
+     *
+     * @param $type
+     * @param string $value
+     * @return array
+     */
     protected function getTypeSize($type, $value = '')
     {
         $size = ['meta' => 0, 'data' => 0];
