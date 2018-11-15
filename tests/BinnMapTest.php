@@ -52,4 +52,12 @@ class BinnMapTest extends TestCase
         $this->assertTrue(BinnMap::validArray([1 => 0, 2 => 2]));
         $this->assertFalse(BinnMap::validArray(['key' => 'val']));
     }
+
+    public function testNegativeKey()
+    {
+        $binn = new BinnMap();
+        $array = [-2 => 543, -8 => 'test'];
+        $binnString = $binn->serialize($array);
+        $this->assertEquals($array, $binn->unserialize($binnString));
+    }
 }
