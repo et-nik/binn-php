@@ -1,140 +1,719 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1541777381">
-  <project timestamp="1541777381">
-    <file name="/home/nikita/Git/binn-php/examples/binn_bool.php">
-      <line num="3" type="stmt" count="0"/>
-      <line num="9" type="stmt" count="0"/>
-      <line num="11" type="stmt" count="0"/>
-      <line num="12" type="stmt" count="0"/>
-      <line num="13" type="stmt" count="0"/>
-      <line num="14" type="stmt" count="0"/>
-      <line num="15" type="stmt" count="0"/>
-      <line num="18" type="stmt" count="0"/>
-      <line num="19" type="stmt" count="0"/>
-      <line num="24" type="stmt" count="0"/>
-      <line num="25" type="stmt" count="0"/>
-      <line num="26" type="stmt" count="0"/>
-      <line num="28" type="stmt" count="0"/>
-      <metrics loc="28" ncloc="20" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="0" elements="13" coveredelements="0"/>
-    </file>
-    <file name="/home/nikita/Git/binn-php/examples/binn_example.php">
-      <line num="3" type="stmt" count="0"/>
-      <line num="9" type="stmt" count="0"/>
-      <line num="11" type="stmt" count="0"/>
-      <line num="12" type="stmt" count="0"/>
-      <line num="13" type="stmt" count="0"/>
-      <line num="14" type="stmt" count="0"/>
-      <line num="17" type="stmt" count="0"/>
-      <line num="18" type="stmt" count="0"/>
-      <line num="23" type="stmt" count="0"/>
-      <line num="24" type="stmt" count="0"/>
-      <line num="25" type="stmt" count="0"/>
-      <line num="27" type="stmt" count="0"/>
-      <metrics loc="27" ncloc="19" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="0" elements="12" coveredelements="0"/>
-    </file>
-    <file name="/home/nikita/Git/binn-php/examples/binn_performance.php">
-      <line num="3" type="stmt" count="0"/>
-      <line num="5" type="stmt" count="0"/>
-      <line num="9" type="stmt" count="0"/>
-      <line num="11" type="stmt" count="0"/>
-      <line num="12" type="stmt" count="0"/>
-      <line num="13" type="stmt" count="0"/>
-      <line num="14" type="stmt" count="0"/>
-      <line num="15" type="stmt" count="0"/>
-      <line num="16" type="stmt" count="0"/>
-      <line num="17" type="stmt" count="0"/>
-      <line num="18" type="stmt" count="0"/>
-      <line num="19" type="stmt" count="0"/>
-      <line num="26" type="stmt" count="0"/>
-      <line num="27" type="stmt" count="0"/>
-      <line num="29" type="stmt" count="0"/>
-      <line num="30" type="stmt" count="0"/>
-      <line num="31" type="stmt" count="0"/>
-      <line num="32" type="stmt" count="0"/>
-      <line num="33" type="stmt" count="0"/>
-      <line num="34" type="stmt" count="0"/>
-      <line num="35" type="stmt" count="0"/>
-      <line num="42" type="stmt" count="0"/>
-      <line num="44" type="stmt" count="0"/>
-      <line num="45" type="stmt" count="0"/>
-      <line num="46" type="stmt" count="0"/>
-      <line num="47" type="stmt" count="0"/>
-      <line num="48" type="stmt" count="0"/>
-      <metrics loc="66" ncloc="37" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="27" coveredstatements="0" elements="27" coveredelements="0"/>
-    </file>
-    <file name="/home/nikita/Git/binn-php/examples/binn_performance_large.php">
-      <line num="3" type="stmt" count="0"/>
-      <line num="5" type="stmt" count="0"/>
-      <line num="9" type="stmt" count="0"/>
-      <line num="11" type="stmt" count="0"/>
-      <line num="12" type="stmt" count="0"/>
-      <line num="14" type="stmt" count="0"/>
-      <line num="15" type="stmt" count="0"/>
-      <line num="16" type="stmt" count="0"/>
-      <line num="18" type="stmt" count="0"/>
-      <line num="20" type="stmt" count="0"/>
-      <line num="21" type="stmt" count="0"/>
-      <line num="23" type="stmt" count="0"/>
-      <line num="25" type="stmt" count="0"/>
-      <line num="26" type="stmt" count="0"/>
-      <line num="27" type="stmt" count="0"/>
-      <line num="28" type="stmt" count="0"/>
-      <line num="29" type="stmt" count="0"/>
-      <line num="30" type="stmt" count="0"/>
-      <line num="31" type="stmt" count="0"/>
-      <line num="32" type="stmt" count="0"/>
-      <line num="33" type="stmt" count="0"/>
-      <line num="34" type="stmt" count="0"/>
-      <line num="35" type="stmt" count="0"/>
-      <line num="36" type="stmt" count="0"/>
-      <line num="37" type="stmt" count="0"/>
-      <line num="38" type="stmt" count="0"/>
-      <line num="39" type="stmt" count="0"/>
-      <line num="40" type="stmt" count="0"/>
-      <line num="41" type="stmt" count="0"/>
-      <line num="42" type="stmt" count="0"/>
-      <line num="44" type="stmt" count="0"/>
-      <line num="46" type="stmt" count="0"/>
-      <line num="48" type="stmt" count="0"/>
-      <line num="49" type="stmt" count="0"/>
-      <line num="50" type="stmt" count="0"/>
-      <line num="51" type="stmt" count="0"/>
-      <line num="52" type="stmt" count="0"/>
-      <line num="53" type="stmt" count="0"/>
-      <line num="54" type="stmt" count="0"/>
-      <line num="55" type="stmt" count="0"/>
-      <line num="56" type="stmt" count="0"/>
-      <line num="57" type="stmt" count="0"/>
-      <line num="59" type="stmt" count="0"/>
-      <line num="60" type="stmt" count="0"/>
-      <line num="61" type="stmt" count="0"/>
-      <line num="62" type="stmt" count="0"/>
-      <line num="63" type="stmt" count="0"/>
-      <line num="64" type="stmt" count="0"/>
-      <line num="65" type="stmt" count="0"/>
-      <line num="66" type="stmt" count="0"/>
-      <line num="67" type="stmt" count="0"/>
-      <line num="68" type="stmt" count="0"/>
-      <line num="70" type="stmt" count="0"/>
-      <line num="71" type="stmt" count="0"/>
-      <line num="72" type="stmt" count="0"/>
-      <line num="79" type="stmt" count="0"/>
-      <line num="80" type="stmt" count="0"/>
-      <line num="82" type="stmt" count="0"/>
-      <line num="83" type="stmt" count="0"/>
-      <line num="84" type="stmt" count="0"/>
-      <line num="85" type="stmt" count="0"/>
-      <line num="86" type="stmt" count="0"/>
-      <line num="87" type="stmt" count="0"/>
-      <line num="88" type="stmt" count="0"/>
-      <line num="95" type="stmt" count="0"/>
-      <line num="97" type="stmt" count="0"/>
-      <line num="98" type="stmt" count="0"/>
-      <line num="99" type="stmt" count="0"/>
-      <line num="100" type="stmt" count="0"/>
-      <line num="101" type="stmt" count="0"/>
-      <metrics loc="112" ncloc="90" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="70" coveredstatements="0" elements="70" coveredelements="0"/>
-    </file>
-    <metrics files="4" loc="233" ncloc="166" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="122" coveredstatements="0" elements="122" coveredelements="0"/>
+<coverage generated="1542269303">
+  <project timestamp="1542269303">
+    <package name="Knik\Binn">
+      <file name="/home/nikita/Git/binn-php/src/Binn.php">
+        <class name="Binn" namespace="Knik\Binn">
+          <metrics complexity="7" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="18" elements="22" coveredelements="20"/>
+        </class>
+        <line num="41" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="5"/>
+        <line num="43" type="stmt" count="5"/>
+        <line num="44" type="stmt" count="5"/>
+        <line num="45" type="stmt" count="5"/>
+        <line num="46" type="stmt" count="5"/>
+        <line num="48" type="stmt" count="5"/>
+        <line num="54" type="method" name="serialize" visibility="public" complexity="3" crap="3.04" count="4"/>
+        <line num="56" type="stmt" count="4"/>
+        <line num="58" type="stmt" count="4"/>
+        <line num="60" type="stmt" count="4"/>
+        <line num="61" type="stmt" count="4"/>
+        <line num="62" type="stmt" count="4"/>
+        <line num="65" type="stmt" count="0"/>
+        <line num="71" type="method" name="unserialize" visibility="public" complexity="3" crap="3" count="3"/>
+        <line num="73" type="stmt" count="3"/>
+        <line num="74" type="stmt" count="1"/>
+        <line num="77" type="stmt" count="3"/>
+        <line num="79" type="stmt" count="3"/>
+        <line num="81" type="stmt" count="3"/>
+        <line num="82" type="stmt" count="3"/>
+        <line num="83" type="stmt" count="3"/>
+        <line num="85" type="stmt" count="1"/>
+        <metrics loc="87" ncloc="49" classes="1" methods="3" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="19" coveredstatements="18" elements="22" coveredelements="20"/>
+      </file>
+      <file name="/home/nikita/Git/binn-php/src/BinnAbstract.php">
+        <class name="BinnAbstract" namespace="Knik\Binn">
+          <metrics complexity="96" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="188" coveredstatements="184" elements="205" coveredelements="200"/>
+        </class>
+        <line num="147" type="method" name="setContainersClasses" visibility="public" complexity="1" crap="1" count="6"/>
+        <line num="149" type="stmt" count="6"/>
+        <line num="150" type="stmt" count="6"/>
+        <line num="158" type="method" name="getInt32Binsize" visibility="protected" complexity="1" crap="1" count="4"/>
+        <line num="160" type="stmt" count="4"/>
+        <line num="161" type="stmt" count="4"/>
+        <line num="170" type="method" name="detectType" visibility="protected" complexity="10" crap="10" count="9"/>
+        <line num="172" type="stmt" count="9"/>
+        <line num="173" type="stmt" count="2"/>
+        <line num="176" type="stmt" count="9"/>
+        <line num="177" type="stmt" count="7"/>
+        <line num="180" type="stmt" count="9"/>
+        <line num="181" type="stmt" count="6"/>
+        <line num="184" type="stmt" count="6"/>
+        <line num="185" type="stmt" count="3"/>
+        <line num="186" type="stmt" count="3"/>
+        <line num="188" type="stmt" count="2"/>
+        <line num="192" type="stmt" count="5"/>
+        <line num="193" type="stmt" count="3"/>
+        <line num="194" type="stmt" count="3"/>
+        <line num="195" type="stmt" count="3"/>
+        <line num="200" type="stmt" count="2"/>
+        <line num="209" type="method" name="detectInt" visibility="protected" complexity="8" crap="8" count="7"/>
+        <line num="211" type="stmt" count="7"/>
+        <line num="213" type="stmt" count="6"/>
+        <line num="214" type="stmt" count="3"/>
+        <line num="215" type="stmt" count="6"/>
+        <line num="216" type="stmt" count="5"/>
+        <line num="217" type="stmt" count="3"/>
+        <line num="218" type="stmt" count="2"/>
+        <line num="220" type="stmt" count="3"/>
+        <line num="224" type="stmt" count="7"/>
+        <line num="225" type="stmt" count="5"/>
+        <line num="226" type="stmt" count="6"/>
+        <line num="227" type="stmt" count="4"/>
+        <line num="228" type="stmt" count="3"/>
+        <line num="229" type="stmt" count="1"/>
+        <line num="231" type="stmt" count="3"/>
+        <line num="242" type="method" name="storageType" visibility="protected" complexity="1" crap="1" count="23"/>
+        <line num="244" type="stmt" count="23"/>
+        <line num="254" type="method" name="isArrayAssoc" visibility="protected" complexity="2" crap="2" count="12"/>
+        <line num="256" type="stmt" count="12"/>
+        <line num="257" type="stmt" count="12"/>
+        <line num="258" type="stmt" count="12"/>
+        <line num="268" type="method" name="isArrayObject" visibility="protected" complexity="3" crap="3" count="5"/>
+        <line num="270" type="stmt" count="5"/>
+        <line num="271" type="stmt" count="5"/>
+        <line num="272" type="stmt" count="5"/>
+        <line num="276" type="stmt" count="4"/>
+        <line num="283" type="method" name="calculateSize" visibility="protected" complexity="3" crap="3" count="19"/>
+        <line num="285" type="stmt" count="19"/>
+        <line num="287" type="stmt" count="19"/>
+        <line num="288" type="stmt" count="4"/>
+        <line num="291" type="stmt" count="19"/>
+        <line num="292" type="stmt" count="2"/>
+        <line num="295" type="stmt" count="19"/>
+        <line num="296" type="stmt" count="19"/>
+        <line num="303" type="method" name="getBinnArr" visibility="public" complexity="5" crap="5" count="15"/>
+        <line num="305" type="stmt" count="15"/>
+        <line num="307" type="stmt" count="15"/>
+        <line num="308" type="stmt" count="15"/>
+        <line num="310" type="stmt" count="15"/>
+        <line num="311" type="stmt" count="4"/>
+        <line num="312" type="stmt" count="3"/>
+        <line num="313" type="stmt" count="3"/>
+        <line num="315" type="stmt" count="4"/>
+        <line num="318" type="stmt" count="15"/>
+        <line num="319" type="stmt" count="7"/>
+        <line num="320" type="stmt" count="7"/>
+        <line num="322" type="stmt" count="15"/>
+        <line num="327" type="stmt" count="15"/>
+        <line num="334" type="method" name="binnSize" visibility="public" complexity="1" crap="1" count="11"/>
+        <line num="336" type="stmt" count="11"/>
+        <line num="352" type="method" name="compressInt" visibility="protected" complexity="14" crap="14" count="14"/>
+        <line num="354" type="stmt" count="14"/>
+        <line num="356" type="stmt" count="14"/>
+        <line num="359" type="stmt" count="13"/>
+        <line num="360" type="stmt" count="1"/>
+        <line num="361" type="stmt" count="1"/>
+        <line num="363" type="stmt" count="13"/>
+        <line num="364" type="stmt" count="1"/>
+        <line num="365" type="stmt" count="1"/>
+        <line num="367" type="stmt" count="13"/>
+        <line num="368" type="stmt" count="1"/>
+        <line num="369" type="stmt" count="1"/>
+        <line num="371" type="stmt" count="13"/>
+        <line num="372" type="stmt" count="1"/>
+        <line num="373" type="stmt" count="1"/>
+        <line num="377" type="stmt" count="14"/>
+        <line num="379" type="stmt" count="13"/>
+        <line num="380" type="stmt" count="1"/>
+        <line num="382" type="stmt" count="13"/>
+        <line num="383" type="stmt" count="12"/>
+        <line num="385" type="stmt" count="3"/>
+        <line num="386" type="stmt" count="2"/>
+        <line num="390" type="stmt" count="14"/>
+        <line num="393" type="stmt" count="13"/>
+        <line num="394" type="stmt" count="2"/>
+        <line num="396" type="stmt" count="13"/>
+        <line num="397" type="stmt" count="11"/>
+        <line num="399" type="stmt" count="3"/>
+        <line num="400" type="stmt" count="1"/>
+        <line num="404" type="stmt" count="14"/>
+        <line num="412" type="method" name="binnFree" visibility="public" complexity="1" crap="1" count="14"/>
+        <line num="416" type="stmt" count="14"/>
+        <line num="417" type="stmt" count="14"/>
+        <line num="421" type="stmt" count="14"/>
+        <line num="423" type="stmt" count="14"/>
+        <line num="424" type="stmt" count="14"/>
+        <line num="426" type="stmt" count="14"/>
+        <line num="428" type="stmt" count="14"/>
+        <line num="438" type="method" name="unpack" visibility="protected" complexity="14" crap="14" count="14"/>
+        <line num="440" type="stmt" count="14"/>
+        <line num="441" type="stmt" count="2"/>
+        <line num="442" type="stmt" count="14"/>
+        <line num="443" type="stmt" count="2"/>
+        <line num="444" type="stmt" count="14"/>
+        <line num="445" type="stmt" count="2"/>
+        <line num="446" type="stmt" count="14"/>
+        <line num="447" type="stmt" count="4"/>
+        <line num="448" type="stmt" count="14"/>
+        <line num="449" type="stmt" count="6"/>
+        <line num="450" type="stmt" count="14"/>
+        <line num="451" type="stmt" count="14"/>
+        <line num="452" type="stmt" count="14"/>
+        <line num="453" type="stmt" count="3"/>
+        <line num="454" type="stmt" count="14"/>
+        <line num="455" type="stmt" count="6"/>
+        <line num="456" type="stmt" count="14"/>
+        <line num="457" type="stmt" count="5"/>
+        <line num="458" type="stmt" count="14"/>
+        <line num="459" type="stmt" count="2"/>
+        <line num="460" type="stmt" count="13"/>
+        <line num="461" type="stmt" count="2"/>
+        <line num="462" type="stmt" count="13"/>
+        <line num="463" type="stmt" count="3"/>
+        <line num="464" type="stmt" count="11"/>
+        <line num="465" type="stmt" count="11"/>
+        <line num="468" type="stmt" count="1"/>
+        <line num="478" type="method" name="pack" visibility="protected" complexity="15" crap="15" count="17"/>
+        <line num="480" type="stmt" count="17"/>
+        <line num="481" type="stmt" count="1"/>
+        <line num="482" type="stmt" count="17"/>
+        <line num="483" type="stmt" count="1"/>
+        <line num="484" type="stmt" count="17"/>
+        <line num="485" type="stmt" count="2"/>
+        <line num="486" type="stmt" count="17"/>
+        <line num="487" type="stmt" count="4"/>
+        <line num="488" type="stmt" count="17"/>
+        <line num="489" type="stmt" count="6"/>
+        <line num="490" type="stmt" count="17"/>
+        <line num="491" type="stmt" count="16"/>
+        <line num="492" type="stmt" count="17"/>
+        <line num="493" type="stmt" count="3"/>
+        <line num="494" type="stmt" count="17"/>
+        <line num="495" type="stmt" count="7"/>
+        <line num="496" type="stmt" count="15"/>
+        <line num="497" type="stmt" count="4"/>
+        <line num="498" type="stmt" count="15"/>
+        <line num="499" type="stmt" count="2"/>
+        <line num="500" type="stmt" count="14"/>
+        <line num="501" type="stmt" count="2"/>
+        <line num="502" type="stmt" count="14"/>
+        <line num="503" type="stmt" count="3"/>
+        <line num="504" type="stmt" count="13"/>
+        <line num="505" type="stmt" count="12"/>
+        <line num="506" type="stmt" count="13"/>
+        <line num="507" type="stmt" count="12"/>
+        <line num="510" type="stmt" count="1"/>
+        <line num="519" type="method" name="packType" visibility="protected" complexity="1" crap="1" count="16"/>
+        <line num="521" type="stmt" count="16"/>
+        <line num="530" type="method" name="packSize" visibility="protected" complexity="2" crap="2" count="16"/>
+        <line num="532" type="stmt" count="16"/>
+        <line num="533" type="stmt" count="14"/>
+        <line num="534" type="stmt" count="16"/>
+        <line num="545" type="method" name="getTypeSize" visibility="protected" complexity="14" crap="14.51" count="22"/>
+        <line num="547" type="stmt" count="22"/>
+        <line num="548" type="stmt" count="22"/>
+        <line num="550" type="stmt" count="22"/>
+        <line num="551" type="stmt" count="22"/>
+        <line num="552" type="stmt" count="22"/>
+        <line num="554" type="stmt" count="2"/>
+        <line num="555" type="stmt" count="22"/>
+        <line num="556" type="stmt" count="8"/>
+        <line num="557" type="stmt" count="22"/>
+        <line num="558" type="stmt" count="0"/>
+        <line num="560" type="stmt" count="0"/>
+        <line num="561" type="stmt" count="0"/>
+        <line num="563" type="stmt" count="0"/>
+        <line num="564" type="stmt" count="22"/>
+        <line num="565" type="stmt" count="17"/>
+        <line num="567" type="stmt" count="17"/>
+        <line num="568" type="stmt" count="17"/>
+        <line num="570" type="stmt" count="17"/>
+        <line num="571" type="stmt" count="16"/>
+        <line num="572" type="stmt" count="4"/>
+        <line num="573" type="stmt" count="15"/>
+        <line num="574" type="stmt" count="2"/>
+        <line num="575" type="stmt" count="14"/>
+        <line num="576" type="stmt" count="12"/>
+        <line num="577" type="stmt" count="11"/>
+        <line num="578" type="stmt" count="11"/>
+        <line num="579" type="stmt" count="1"/>
+        <line num="580" type="stmt" count="1"/>
+        <line num="583" type="stmt" count="22"/>
+        <metrics loc="584" ncloc="379" classes="1" methods="17" coveredmethods="16" conditionals="0" coveredconditionals="0" statements="188" coveredstatements="184" elements="205" coveredelements="200"/>
+      </file>
+      <file name="/home/nikita/Git/binn-php/src/BinnList.php">
+        <class name="BinnList" namespace="Knik\Binn">
+          <metrics complexity="46" methods="9" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="137" coveredstatements="120" elements="146" coveredelements="127"/>
+        </class>
+        <line num="50" type="method" name="__construct" visibility="public" complexity="2" crap="2" count="14"/>
+        <line num="52" type="stmt" count="14"/>
+        <line num="54" type="stmt" count="14"/>
+        <line num="55" type="stmt" count="2"/>
+        <line num="58" type="stmt" count="14"/>
+        <line num="68" type="method" name="__call" visibility="public" complexity="2" crap="2" count="9"/>
+        <line num="70" type="stmt" count="9"/>
+        <line num="71" type="stmt" count="8"/>
+        <line num="72" type="stmt" count="8"/>
+        <line num="75" type="stmt" count="1"/>
+        <line num="81" type="method" name="binnOpen" visibility="public" complexity="2" crap="2" count="4"/>
+        <line num="83" type="stmt" count="4"/>
+        <line num="84" type="stmt" count="4"/>
+        <line num="86" type="stmt" count="4"/>
+        <line num="93" type="method" name="getBinnVal" visibility="public" complexity="11" crap="11" count="9"/>
+        <line num="95" type="stmt" count="9"/>
+        <line num="97" type="stmt" count="9"/>
+        <line num="98" type="stmt" count="9"/>
+        <line num="100" type="stmt" count="9"/>
+        <line num="102" type="stmt" count="9"/>
+        <line num="103" type="stmt" count="9"/>
+        <line num="105" type="stmt" count="9"/>
+        <line num="106" type="stmt" count="9"/>
+        <line num="107" type="stmt" count="9"/>
+        <line num="109" type="stmt" count="9"/>
+        <line num="110" type="stmt" count="1"/>
+        <line num="111" type="stmt" count="1"/>
+        <line num="112" type="stmt" count="1"/>
+        <line num="114" type="stmt" count="1"/>
+        <line num="117" type="stmt" count="9"/>
+        <line num="118" type="stmt" count="8"/>
+        <line num="119" type="stmt" count="7"/>
+        <line num="120" type="stmt" count="9"/>
+        <line num="122" type="stmt" count="6"/>
+        <line num="123" type="stmt" count="6"/>
+        <line num="124" type="stmt" count="5"/>
+        <line num="125" type="stmt" count="0"/>
+        <line num="126" type="stmt" count="5"/>
+        <line num="127" type="stmt" count="5"/>
+        <line num="128" type="stmt" count="5"/>
+        <line num="129" type="stmt" count="5"/>
+        <line num="130" type="stmt" count="5"/>
+        <line num="131" type="stmt" count="2"/>
+        <line num="132" type="stmt" count="9"/>
+        <line num="136" type="stmt" count="9"/>
+        <line num="145" type="method" name="validArray" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="147" type="stmt" count="2"/>
+        <line num="148" type="stmt" count="2"/>
+        <line num="149" type="stmt" count="1"/>
+        <line num="152" type="stmt" count="2"/>
+        <line num="159" type="method" name="serialize" visibility="public" complexity="7" crap="7" count="4"/>
+        <line num="161" type="stmt" count="4"/>
+        <line num="162" type="stmt" count="1"/>
+        <line num="165" type="stmt" count="4"/>
+        <line num="167" type="stmt" count="4"/>
+        <line num="168" type="stmt" count="1"/>
+        <line num="171" type="stmt" count="3"/>
+        <line num="172" type="stmt" count="3"/>
+        <line num="173" type="stmt" count="3"/>
+        <line num="175" type="stmt" count="3"/>
+        <line num="176" type="stmt" count="1"/>
+        <line num="178" type="stmt" count="1"/>
+        <line num="179" type="stmt" count="1"/>
+        <line num="180" type="stmt" count="1"/>
+        <line num="181" type="stmt" count="1"/>
+        <line num="182" type="stmt" count="1"/>
+        <line num="187" type="stmt" count="3"/>
+        <line num="190" type="stmt" count="3"/>
+        <line num="197" type="method" name="unserialize" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="199" type="stmt" count="3"/>
+        <line num="200" type="stmt" count="2"/>
+        <line num="203" type="stmt" count="2"/>
+        <line num="205" type="stmt" count="2"/>
+        <line num="206" type="stmt" count="2"/>
+        <line num="213" type="method" name="_addVal" visibility="private" complexity="2" crap="2" count="12"/>
+        <line num="215" type="stmt" count="12"/>
+        <line num="216" type="stmt" count="12"/>
+        <line num="217" type="stmt" count="12"/>
+        <line num="219" type="stmt" count="6"/>
+        <line num="222" type="stmt" count="12"/>
+        <line num="224" type="stmt" count="12"/>
+        <line num="225" type="stmt" count="12"/>
+        <line num="227" type="stmt" count="12"/>
+        <line num="229" type="stmt" count="12"/>
+        <line num="230" type="stmt" count="12"/>
+        <line num="231" type="stmt" count="12"/>
+        <line num="232" type="stmt" count="12"/>
+        <line num="234" type="stmt" count="12"/>
+        <line num="239" type="method" name="_binnLoad" visibility="private" complexity="16" crap="21.66" count="6"/>
+        <line num="241" type="stmt" count="6"/>
+        <line num="242" type="stmt" count="6"/>
+        <line num="245" type="stmt" count="6"/>
+        <line num="246" type="stmt" count="2"/>
+        <line num="247" type="stmt" count="2"/>
+        <line num="248" type="stmt" count="2"/>
+        <line num="250" type="stmt" count="4"/>
+        <line num="251" type="stmt" count="4"/>
+        <line num="254" type="stmt" count="6"/>
+        <line num="256" type="stmt" count="6"/>
+        <line num="259" type="stmt" count="6"/>
+        <line num="260" type="stmt" count="1"/>
+        <line num="261" type="stmt" count="1"/>
+        <line num="262" type="stmt" count="1"/>
+        <line num="264" type="stmt" count="5"/>
+        <line num="265" type="stmt" count="5"/>
+        <line num="268" type="stmt" count="6"/>
+        <line num="271" type="stmt" count="6"/>
+        <line num="272" type="stmt" count="6"/>
+        <line num="273" type="stmt" count="6"/>
+        <line num="274" type="stmt" count="6"/>
+        <line num="275" type="stmt" count="6"/>
+        <line num="277" type="stmt" count="6"/>
+        <line num="278" type="stmt" count="5"/>
+        <line num="279" type="stmt" count="4"/>
+        <line num="280" type="stmt" count="3"/>
+        <line num="281" type="stmt" count="6"/>
+        <line num="283" type="stmt" count="5"/>
+        <line num="284" type="stmt" count="5"/>
+        <line num="285" type="stmt" count="5"/>
+        <line num="286" type="stmt" count="5"/>
+        <line num="288" type="stmt" count="3"/>
+        <line num="289" type="stmt" count="3"/>
+        <line num="292" type="stmt" count="3"/>
+        <line num="293" type="stmt" count="0"/>
+        <line num="294" type="stmt" count="0"/>
+        <line num="295" type="stmt" count="0"/>
+        <line num="297" type="stmt" count="3"/>
+        <line num="300" type="stmt" count="3"/>
+        <line num="301" type="stmt" count="3"/>
+        <line num="302" type="stmt" count="3"/>
+        <line num="305" type="stmt" count="3"/>
+        <line num="306" type="stmt" count="3"/>
+        <line num="307" type="stmt" count="0"/>
+        <line num="308" type="stmt" count="0"/>
+        <line num="311" type="stmt" count="0"/>
+        <line num="312" type="stmt" count="0"/>
+        <line num="313" type="stmt" count="0"/>
+        <line num="316" type="stmt" count="0"/>
+        <line num="318" type="stmt" count="0"/>
+        <line num="319" type="stmt" count="0"/>
+        <line num="320" type="stmt" count="0"/>
+        <line num="321" type="stmt" count="0"/>
+        <line num="322" type="stmt" count="0"/>
+        <line num="326" type="stmt" count="0"/>
+        <line num="328" type="stmt" count="0"/>
+        <line num="331" type="stmt" count="6"/>
+        <metrics loc="331" ncloc="252" classes="1" methods="9" coveredmethods="7" conditionals="0" coveredconditionals="0" statements="137" coveredstatements="120" elements="146" coveredelements="127"/>
+      </file>
+      <file name="/home/nikita/Git/binn-php/src/BinnMap.php">
+        <class name="BinnMap" namespace="Knik\Binn">
+          <metrics complexity="45" methods="8" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="142" coveredstatements="118" elements="150" coveredelements="123"/>
+        </class>
+        <line num="11" type="method" name="__construct" visibility="public" complexity="2" crap="2" count="3"/>
+        <line num="13" type="stmt" count="3"/>
+        <line num="14" type="stmt" count="3"/>
+        <line num="16" type="stmt" count="3"/>
+        <line num="17" type="stmt" count="1"/>
+        <line num="20" type="stmt" count="3"/>
+        <line num="26" type="method" name="binnOpen" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="28" type="stmt" count="2"/>
+        <line num="29" type="stmt" count="2"/>
+        <line num="31" type="stmt" count="2"/>
+        <line num="38" type="method" name="_addVal" visibility="private" complexity="2" crap="2" count="3"/>
+        <line num="40" type="stmt" count="3"/>
+        <line num="41" type="stmt" count="3"/>
+        <line num="42" type="stmt" count="3"/>
+        <line num="44" type="stmt" count="1"/>
+        <line num="47" type="stmt" count="3"/>
+        <line num="49" type="stmt" count="3"/>
+        <line num="50" type="stmt" count="3"/>
+        <line num="53" type="stmt" count="3"/>
+        <line num="55" type="stmt" count="3"/>
+        <line num="57" type="stmt" count="3"/>
+        <line num="58" type="stmt" count="3"/>
+        <line num="59" type="stmt" count="3"/>
+        <line num="60" type="stmt" count="3"/>
+        <line num="61" type="stmt" count="3"/>
+        <line num="63" type="stmt" count="3"/>
+        <line num="68" type="method" name="_binnLoad" visibility="private" complexity="16" crap="18.15" count="3"/>
+        <line num="70" type="stmt" count="3"/>
+        <line num="71" type="stmt" count="3"/>
+        <line num="74" type="stmt" count="3"/>
+        <line num="75" type="stmt" count="0"/>
+        <line num="76" type="stmt" count="0"/>
+        <line num="77" type="stmt" count="0"/>
+        <line num="79" type="stmt" count="3"/>
+        <line num="80" type="stmt" count="3"/>
+        <line num="83" type="stmt" count="3"/>
+        <line num="85" type="stmt" count="3"/>
+        <line num="88" type="stmt" count="3"/>
+        <line num="89" type="stmt" count="0"/>
+        <line num="90" type="stmt" count="0"/>
+        <line num="91" type="stmt" count="0"/>
+        <line num="93" type="stmt" count="3"/>
+        <line num="94" type="stmt" count="3"/>
+        <line num="97" type="stmt" count="3"/>
+        <line num="100" type="stmt" count="3"/>
+        <line num="101" type="stmt" count="3"/>
+        <line num="102" type="stmt" count="3"/>
+        <line num="103" type="stmt" count="3"/>
+        <line num="105" type="stmt" count="3"/>
+        <line num="106" type="stmt" count="3"/>
+        <line num="107" type="stmt" count="3"/>
+        <line num="109" type="stmt" count="3"/>
+        <line num="110" type="stmt" count="3"/>
+        <line num="111" type="stmt" count="3"/>
+        <line num="112" type="stmt" count="3"/>
+        <line num="113" type="stmt" count="3"/>
+        <line num="115" type="stmt" count="1"/>
+        <line num="116" type="stmt" count="1"/>
+        <line num="117" type="stmt" count="1"/>
+        <line num="118" type="stmt" count="1"/>
+        <line num="120" type="stmt" count="3"/>
+        <line num="121" type="stmt" count="3"/>
+        <line num="124" type="stmt" count="3"/>
+        <line num="125" type="stmt" count="0"/>
+        <line num="126" type="stmt" count="0"/>
+        <line num="127" type="stmt" count="0"/>
+        <line num="129" type="stmt" count="3"/>
+        <line num="132" type="stmt" count="3"/>
+        <line num="133" type="stmt" count="3"/>
+        <line num="134" type="stmt" count="3"/>
+        <line num="137" type="stmt" count="3"/>
+        <line num="138" type="stmt" count="3"/>
+        <line num="139" type="stmt" count="2"/>
+        <line num="140" type="stmt" count="2"/>
+        <line num="143" type="stmt" count="2"/>
+        <line num="144" type="stmt" count="0"/>
+        <line num="145" type="stmt" count="0"/>
+        <line num="148" type="stmt" count="2"/>
+        <line num="150" type="stmt" count="2"/>
+        <line num="151" type="stmt" count="2"/>
+        <line num="152" type="stmt" count="2"/>
+        <line num="153" type="stmt" count="2"/>
+        <line num="154" type="stmt" count="2"/>
+        <line num="158" type="stmt" count="2"/>
+        <line num="160" type="stmt" count="0"/>
+        <line num="163" type="stmt" count="3"/>
+        <line num="170" type="method" name="getBinnVal" visibility="public" complexity="11" crap="11.46" count="2"/>
+        <line num="172" type="stmt" count="2"/>
+        <line num="174" type="stmt" count="2"/>
+        <line num="175" type="stmt" count="2"/>
+        <line num="177" type="stmt" count="2"/>
+        <line num="179" type="stmt" count="2"/>
+        <line num="180" type="stmt" count="2"/>
+        <line num="182" type="stmt" count="2"/>
+        <line num="183" type="stmt" count="2"/>
+        <line num="184" type="stmt" count="2"/>
+        <line num="185" type="stmt" count="2"/>
+        <line num="187" type="stmt" count="2"/>
+        <line num="189" type="stmt" count="2"/>
+        <line num="190" type="stmt" count="0"/>
+        <line num="191" type="stmt" count="0"/>
+        <line num="192" type="stmt" count="0"/>
+        <line num="194" type="stmt" count="0"/>
+        <line num="197" type="stmt" count="2"/>
+        <line num="198" type="stmt" count="2"/>
+        <line num="199" type="stmt" count="2"/>
+        <line num="200" type="stmt" count="2"/>
+        <line num="202" type="stmt" count="1"/>
+        <line num="203" type="stmt" count="1"/>
+        <line num="204" type="stmt" count="2"/>
+        <line num="205" type="stmt" count="0"/>
+        <line num="206" type="stmt" count="2"/>
+        <line num="207" type="stmt" count="2"/>
+        <line num="208" type="stmt" count="2"/>
+        <line num="209" type="stmt" count="2"/>
+        <line num="210" type="stmt" count="2"/>
+        <line num="211" type="stmt" count="1"/>
+        <line num="212" type="stmt" count="2"/>
+        <line num="216" type="stmt" count="2"/>
+        <line num="225" type="method" name="validArray" visibility="public" complexity="3" crap="3" count="1"/>
+        <line num="227" type="stmt" count="1"/>
+        <line num="228" type="stmt" count="1"/>
+        <line num="229" type="stmt" count="1"/>
+        <line num="232" type="stmt" count="1"/>
+        <line num="233" type="stmt" count="1"/>
+        <line num="236" type="stmt" count="1"/>
+        <line num="243" type="method" name="serialize" visibility="public" complexity="7" crap="10.42" count="2"/>
+        <line num="245" type="stmt" count="2"/>
+        <line num="246" type="stmt" count="1"/>
+        <line num="249" type="stmt" count="1"/>
+        <line num="251" type="stmt" count="1"/>
+        <line num="252" type="stmt" count="0"/>
+        <line num="255" type="stmt" count="1"/>
+        <line num="256" type="stmt" count="1"/>
+        <line num="257" type="stmt" count="1"/>
+        <line num="259" type="stmt" count="1"/>
+        <line num="260" type="stmt" count="0"/>
+        <line num="262" type="stmt" count="0"/>
+        <line num="263" type="stmt" count="0"/>
+        <line num="264" type="stmt" count="0"/>
+        <line num="265" type="stmt" count="0"/>
+        <line num="266" type="stmt" count="0"/>
+        <line num="271" type="stmt" count="1"/>
+        <line num="274" type="stmt" count="1"/>
+        <line num="281" type="method" name="unserialize" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="283" type="stmt" count="2"/>
+        <line num="284" type="stmt" count="1"/>
+        <line num="287" type="stmt" count="1"/>
+        <line num="289" type="stmt" count="1"/>
+        <line num="290" type="stmt" count="1"/>
+        <metrics loc="291" ncloc="237" classes="1" methods="8" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="142" coveredstatements="118" elements="150" coveredelements="123"/>
+      </file>
+      <file name="/home/nikita/Git/binn-php/src/BinnObject.php">
+        <class name="BinnObject" namespace="Knik\Binn">
+          <metrics complexity="44" methods="8" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="142" coveredstatements="90" elements="150" coveredelements="92"/>
+        </class>
+        <line num="11" type="method" name="__construct" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="13" type="stmt" count="2"/>
+        <line num="15" type="stmt" count="2"/>
+        <line num="16" type="stmt" count="2"/>
+        <line num="19" type="stmt" count="2"/>
+        <line num="25" type="method" name="_binnLoad" visibility="private" complexity="16" crap="28.01" count="2"/>
+        <line num="27" type="stmt" count="2"/>
+        <line num="28" type="stmt" count="2"/>
+        <line num="31" type="stmt" count="2"/>
+        <line num="32" type="stmt" count="0"/>
+        <line num="33" type="stmt" count="0"/>
+        <line num="34" type="stmt" count="0"/>
+        <line num="36" type="stmt" count="2"/>
+        <line num="37" type="stmt" count="2"/>
+        <line num="40" type="stmt" count="2"/>
+        <line num="42" type="stmt" count="2"/>
+        <line num="45" type="stmt" count="2"/>
+        <line num="46" type="stmt" count="0"/>
+        <line num="47" type="stmt" count="0"/>
+        <line num="48" type="stmt" count="0"/>
+        <line num="50" type="stmt" count="2"/>
+        <line num="51" type="stmt" count="2"/>
+        <line num="54" type="stmt" count="2"/>
+        <line num="57" type="stmt" count="2"/>
+        <line num="58" type="stmt" count="2"/>
+        <line num="60" type="stmt" count="2"/>
+        <line num="61" type="stmt" count="2"/>
+        <line num="63" type="stmt" count="2"/>
+        <line num="64" type="stmt" count="2"/>
+        <line num="66" type="stmt" count="2"/>
+        <line num="67" type="stmt" count="2"/>
+        <line num="68" type="stmt" count="2"/>
+        <line num="70" type="stmt" count="2"/>
+        <line num="71" type="stmt" count="2"/>
+        <line num="72" type="stmt" count="2"/>
+        <line num="73" type="stmt" count="2"/>
+        <line num="74" type="stmt" count="2"/>
+        <line num="76" type="stmt" count="1"/>
+        <line num="77" type="stmt" count="1"/>
+        <line num="78" type="stmt" count="1"/>
+        <line num="79" type="stmt" count="1"/>
+        <line num="81" type="stmt" count="2"/>
+        <line num="82" type="stmt" count="2"/>
+        <line num="85" type="stmt" count="2"/>
+        <line num="86" type="stmt" count="0"/>
+        <line num="87" type="stmt" count="0"/>
+        <line num="88" type="stmt" count="0"/>
+        <line num="90" type="stmt" count="2"/>
+        <line num="93" type="stmt" count="2"/>
+        <line num="94" type="stmt" count="2"/>
+        <line num="95" type="stmt" count="2"/>
+        <line num="98" type="stmt" count="2"/>
+        <line num="99" type="stmt" count="2"/>
+        <line num="100" type="stmt" count="0"/>
+        <line num="101" type="stmt" count="0"/>
+        <line num="104" type="stmt" count="0"/>
+        <line num="105" type="stmt" count="0"/>
+        <line num="106" type="stmt" count="0"/>
+        <line num="109" type="stmt" count="0"/>
+        <line num="111" type="stmt" count="0"/>
+        <line num="112" type="stmt" count="0"/>
+        <line num="113" type="stmt" count="0"/>
+        <line num="114" type="stmt" count="0"/>
+        <line num="115" type="stmt" count="0"/>
+        <line num="119" type="stmt" count="0"/>
+        <line num="121" type="stmt" count="0"/>
+        <line num="124" type="stmt" count="2"/>
+        <line num="131" type="method" name="getBinnVal" visibility="public" complexity="11" crap="12.72" count="1"/>
+        <line num="133" type="stmt" count="1"/>
+        <line num="135" type="stmt" count="1"/>
+        <line num="136" type="stmt" count="1"/>
+        <line num="138" type="stmt" count="1"/>
+        <line num="140" type="stmt" count="1"/>
+        <line num="141" type="stmt" count="1"/>
+        <line num="143" type="stmt" count="1"/>
+        <line num="144" type="stmt" count="1"/>
+        <line num="145" type="stmt" count="1"/>
+        <line num="146" type="stmt" count="1"/>
+        <line num="148" type="stmt" count="1"/>
+        <line num="149" type="stmt" count="1"/>
+        <line num="151" type="stmt" count="1"/>
+        <line num="152" type="stmt" count="0"/>
+        <line num="153" type="stmt" count="0"/>
+        <line num="154" type="stmt" count="0"/>
+        <line num="156" type="stmt" count="0"/>
+        <line num="159" type="stmt" count="1"/>
+        <line num="160" type="stmt" count="1"/>
+        <line num="161" type="stmt" count="1"/>
+        <line num="162" type="stmt" count="1"/>
+        <line num="164" type="stmt" count="0"/>
+        <line num="165" type="stmt" count="0"/>
+        <line num="166" type="stmt" count="1"/>
+        <line num="167" type="stmt" count="0"/>
+        <line num="168" type="stmt" count="1"/>
+        <line num="169" type="stmt" count="1"/>
+        <line num="170" type="stmt" count="1"/>
+        <line num="171" type="stmt" count="1"/>
+        <line num="172" type="stmt" count="1"/>
+        <line num="173" type="stmt" count="0"/>
+        <line num="174" type="stmt" count="1"/>
+        <line num="178" type="stmt" count="1"/>
+        <line num="184" type="method" name="binnOpen" visibility="public" complexity="2" crap="6" count="0"/>
+        <line num="186" type="stmt" count="0"/>
+        <line num="187" type="stmt" count="0"/>
+        <line num="189" type="stmt" count="0"/>
+        <line num="196" type="method" name="_addVal" visibility="private" complexity="2" crap="2.00" count="2"/>
+        <line num="198" type="stmt" count="2"/>
+        <line num="199" type="stmt" count="2"/>
+        <line num="200" type="stmt" count="2"/>
+        <line num="202" type="stmt" count="0"/>
+        <line num="205" type="stmt" count="2"/>
+        <line num="207" type="stmt" count="2"/>
+        <line num="208" type="stmt" count="2"/>
+        <line num="211" type="stmt" count="2"/>
+        <line num="213" type="stmt" count="2"/>
+        <line num="215" type="stmt" count="2"/>
+        <line num="216" type="stmt" count="2"/>
+        <line num="217" type="stmt" count="2"/>
+        <line num="218" type="stmt" count="2"/>
+        <line num="219" type="stmt" count="2"/>
+        <line num="221" type="stmt" count="2"/>
+        <line num="229" type="method" name="validArray" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="231" type="stmt" count="1"/>
+        <line num="239" type="stmt" count="1"/>
+        <line num="240" type="stmt" count="1"/>
+        <line num="243" type="stmt" count="1"/>
+        <line num="250" type="method" name="serialize" visibility="public" complexity="7" crap="40.66" count="1"/>
+        <line num="252" type="stmt" count="1"/>
+        <line num="253" type="stmt" count="1"/>
+        <line num="256" type="stmt" count="0"/>
+        <line num="258" type="stmt" count="0"/>
+        <line num="259" type="stmt" count="0"/>
+        <line num="262" type="stmt" count="0"/>
+        <line num="263" type="stmt" count="0"/>
+        <line num="264" type="stmt" count="0"/>
+        <line num="266" type="stmt" count="0"/>
+        <line num="267" type="stmt" count="0"/>
+        <line num="269" type="stmt" count="0"/>
+        <line num="270" type="stmt" count="0"/>
+        <line num="271" type="stmt" count="0"/>
+        <line num="272" type="stmt" count="0"/>
+        <line num="273" type="stmt" count="0"/>
+        <line num="278" type="stmt" count="0"/>
+        <line num="281" type="stmt" count="0"/>
+        <line num="288" type="method" name="unserialize" visibility="public" complexity="2" crap="2.86" count="1"/>
+        <line num="290" type="stmt" count="1"/>
+        <line num="291" type="stmt" count="1"/>
+        <line num="294" type="stmt" count="0"/>
+        <line num="296" type="stmt" count="0"/>
+        <line num="297" type="stmt" count="0"/>
+        <metrics loc="298" ncloc="237" classes="1" methods="8" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="142" coveredstatements="90" elements="150" coveredelements="92"/>
+      </file>
+    </package>
+    <package name="Knik\Binn\Exceptions">
+      <file name="/home/nikita/Git/binn-php/src/Exceptions/InvalidArrayException.php">
+        <class name="InvalidArrayException" namespace="Knik\Binn\Exceptions">
+          <metrics complexity="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+        </class>
+        <metrics loc="9" ncloc="9" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+      </file>
+    </package>
+    <metrics files="6" loc="1600" ncloc="1163" classes="5" methods="45" coveredmethods="32" conditionals="0" coveredconditionals="0" statements="628" coveredstatements="530" elements="673" coveredelements="562"/>
   </project>
 </coverage>

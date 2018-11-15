@@ -1,17 +1,79 @@
 Binn
 ====
 
+[![Build Status](https://travis-ci.org/et-nik/binn-php.svg?branch=master)](https://travis-ci.org/et-nik/binn-php)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/et-nik/binn-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/et-nik/binn-php/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/et-nik/binn-php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/et-nik/binn-php/?branch=master)
+
 PHP Class for serialize to binary string.
 
 Original Binn Library for C++ - https://github.com/liteserver/binn
 
 Binn Specification: https://github.com/liteserver/binn/blob/master/spec.md
 
+## Installation
+
+```bash
+composer require knik/binn
+```
+
 ## Examples
+
+### Binn
+
+Sequential arrays:
+
+```php
+use Knik\Binn\Binn;
+
+$binn = new Binn;
+
+// List
+$array = [123, -456, 789];
+$binnString = $binn->serialize($array);
+$unserialized = $binn->unserialize($binnString); // Equal with $array
+```
+
+Numeric keys array:
+```php
+$binn = new Binn;
+
+// Map
+$array = [1 => "add", 2 => [-12345, 6789]];
+$binnString = $binn->serialize($array);
+$unserialized = $binn->unserialize($binnString); // Equal with $array
+```
+
+String keys array:
+```php
+$binn = new Binn;
+
+// Object
+$array = ["hello" => "world"];
+$binnString = $binn->serialize($array);
+$unserialized = $binn->unserialize($binnString); // Equal with $array
+```
+
+Mixed arrays:
+
+```php
+$binn = new Binn;
+$array = [ ["id" => 1, "name" => "John"], ["id" => 2, "name" => "Eric"] ]
+
+// A list of objects
+$binnString = $binn->serialize($array);
+$unserialized = $binn->unserialize($binnString); // Equal with $array
+```
+
+### Binn List
+
+Serialize/unserialize sequential arrays
 
 ### Simple example
 
 ```php
+use Knik\Binn\BinnList;
+
 $array = [4, -8875, 'text'];
 
 $binn = new BinnList();
