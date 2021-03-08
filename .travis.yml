@@ -5,7 +5,11 @@ php:
   - 8.0
   - 7.3
   - 7.2
-  - 7.1
+
+env:
+  matrix:
+    - PREFER_LOWEST="--prefer-lowest"
+    - PREFER_LOWEST=""
 
 matrix:
   allow_failures:
@@ -19,4 +23,4 @@ after_script:
     - php ocular.phar code-coverage:upload --format=php-clover coverage.xml
 
 install:
-  - travis_retry composer update --no-interaction --prefer-source
+  - travis_retry composer update --no-interaction --prefer-source $PREFER_LOWEST
