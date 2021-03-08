@@ -1,7 +1,7 @@
 Binn
 ====
 
-[![Build Status](https://travis-ci.com/et-nik/binn-php.svg?branch=master)](https://travis-ci.org/et-nik/binn-php)
+[![Build Status](https://travis-ci.com/et-nik/binn-php.svg?branch=master)](https://travis-ci.comd/et-nik/binn-php)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/et-nik/binn-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/et-nik/binn-php/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/et-nik/binn-php/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/et-nik/binn-php/?branch=master)
 
