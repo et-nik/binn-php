@@ -13,15 +13,16 @@
         }
     ],
     "require": {
-        "php": ">=5.6.3"
+        "php": ">=7.1",
+        "symfony/serializer": "^5.2"
     },
     "require-dev": {
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "^5.7"
+        "phpunit/phpunit": "^7"
     },
     "autoload": {
         "psr-4": {
-            "Knik\\Binn\\": "src/"
+            "Knik\\Binn\\": "src/",
+            "Knik\\Binn\\Tests\\": "tests/"
         }
     }
 }

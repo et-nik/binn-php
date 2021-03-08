@@ -16,9 +16,9 @@ echo "Writed {$writeBinn->binnSize()} bytes\n";
 // Read
 
 $binnString = file_get_contents("test.bin");
-$readBinn = new BinnList($binnString);
+$readBinn = new BinnList();
 
-print_r($readBinn->unserialize()) . PHP_EOL;
+print_r($readBinn->unserialize($binnString)) . PHP_EOL;
 
 $array = [2, true, [123, -456, 789]];
 
@@ -27,7 +27,7 @@ $serialized = $binn->serialize($array);
 //
 $binnString = $serialized;
 //
-for ($i = 0; $i < strlen($binnString); $i++) {
+for ($i = 0, $iMax = strlen($binnString); $i < $iMax; $i++) {
     echo "\\x" . strtoupper(str_pad(dechex(ord($binnString[$i])), 2, '0', STR_PAD_LEFT));
 }
 

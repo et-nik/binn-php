@@ -7,7 +7,7 @@ Binn
 
 PHP Class for serialize to binary string.
 
-Original Binn Library for C++ - https://github.com/liteserver/binn
+Original C Binn Library: https://github.com/liteserver/binn
 
 Binn Specification: https://github.com/liteserver/binn/blob/master/spec.md
 
@@ -26,7 +26,7 @@ Sequential arrays:
 ```php
 use Knik\Binn\Binn;
 
-$binn = new Binn;
+$binn = new Binn();
 
 // List
 $array = [123, -456, 789];
@@ -36,7 +36,7 @@ $unserialized = $binn->unserialize($binnString); // Equal with $array
 
 Numeric keys array:
 ```php
-$binn = new Binn;
+$binn = new Binn();
 
 // Map
 $array = [1 => "add", 2 => [-12345, 6789]];
@@ -46,7 +46,7 @@ $unserialized = $binn->unserialize($binnString); // Equal with $array
 
 String keys array:
 ```php
-$binn = new Binn;
+$binn = new Binn();
 
 // Object
 $array = ["hello" => "world"];
@@ -57,7 +57,7 @@ $unserialized = $binn->unserialize($binnString); // Equal with $array
 Mixed arrays:
 
 ```php
-$binn = new Binn;
+$binn = new Binn();
 $array = [ ["id" => 1, "name" => "John"], ["id" => 2, "name" => "Eric"] ]
 
 // A list of objects
@@ -65,43 +65,33 @@ $binnString = $binn->serialize($array);
 $unserialized = $binn->unserialize($binnString); // Equal with $array
 ```
 
-### Binn List
-
-Serialize/unserialize sequential arrays
-
-### Simple example
-
+Blob:
 ```php
-use Knik\Binn\BinnList;
+$binn = new Binn();
+$file = fopen('/path/to/file.jpg', 'rb');
 
-$array = [4, -8875, 'text'];
+// Filedata in binn structure
+$bin1 = $binn->serialize($file);
 
-$binn = new BinnList();
-
-// \xE0\x0F\x03\x20\x04\x41\xDD\x55\xA0\x04text\x00
-$serialized = $binn->serialize($array);
-
+// Filedata in binn list structure
+$bin2 = $binn->serialize(['file' => $file]);
 ```
 
+### Symfony Serializer
+
+You can use BinnEncoder with Symfony Serializer
+
 ```php
-$binnString = "\xE0\x0F\x03\x20\x04\x41\xDD\x55\xA0\x04text\x00";
+use Knik\Binn\Encoder\BinnEncoder;
+use Symfony\Component\Serializer\Serializer;
 
-$binn = new BinnList();
-$unserialized = $binn->unserialize($binnString);
+$encoders = [new BinnEncoder()];
+$serializer = new Serializer([], $encoders);
 
-/*
-Array
-(
-    [0] => 4
-    [1] => -8875
-    [2] => text
-)
-*/
-print_r($unserialized);
-
+$serializer->serialize("\x40\xD0\x06", 'binn');
 ```
 
-### Original C++ library style
+### Original C library style
 ```php
 $binn = new BinnList();
 $binn->addUint8(4);
