@@ -3,8 +3,6 @@
  * Binn. Serialize to bin string.
  * Binn Specification: https://github.com/liteserver/binn/blob/master/spec.md
  *
- * Note! This class not support Map and Object, only List support. Sorry, i am working on this.
- *
  * Original Binn Library for C++ - https://github.com/liteserver/binn
  *
  *
@@ -17,72 +15,85 @@
 
 namespace Knik\Binn;
 
-class Binn extends BinnAbstract {
-
+class Binn extends BinnAbstract
+{
     /**
-     * Size bin string in bytes
-     *
-     * @var int
-     * @access protected
+     * State. Will be removed in 1.0
+     * @var array
      */
-    protected $size         = 0;
+    protected $items = [];
 
     /**
-     * Bin string
-     *
+     * State. Will be removed in 1.0
      * @var string
-     * @access protected
      */
-    protected $binnString     = "";
+    protected $binn = '';
 
-    /**
-     * Binn constructor
-     */
-    public function __construct()
+    public function serialize($data = null)
     {
-        $this->setContainersClasses([
-            self::BINN_LIST => BinnList::class,
-            self::BINN_MAP => BinnMap::class,
-            self::BINN_OBJECT => BinnObject::class,
-        ]);
+        if ($data === null) {
+            return $this->encoder->encode($this->items, 'binn');
+        }
+
+        return $this->encoder->encode($data, 'binn');
+    }
+
+    public function unserialize($binnString = null)
+    {
+        if ($binnString === null) {
+            return $this->decoder->decode($this->binn, 'binn');
+        }
+
+        return $this->decoder->decode($binnString, 'binn');
     }
 
     /**
-     * @param array $array
-     * @return string
+     * @deprecated use serialize/unserialize
      */
-    public function serialize($array = [])
+    public function binnOpen(string $binn = ''): void
     {
-        $this->binnFree();
-
-        foreach ($this->containersClasses as $contanerType => $containersClass)
-        {
-            if ($containersClass::validArray($array)) {
-                $container = new $containersClass();
-                return $container->serialize($array);
-            }
-        }
+        $this->binn  = $binn;
+        $this->items = $this->unserialize($binn);
     }
 
     /**
-     * @param string $binnString
-     * @return array|null
+     * @deprecated use serialize/unserialize
      */
-    public function unserialize($binnString = '')
+    public function getBinnVal(): string
     {
-        if (empty($binnString)) {
-            return $this->getBinnArr();
-        }
+        $this->binn = $this->serialize();
+        return $this->binn;
+    }
 
-        $this->binnFree();
+    /**
+     * @deprecated
+     */
+    public function getBinnArr(): array
+    {
+        return $this->items;
+    }
 
-        $type = $this->unpack(Binn::BINN_UINT8, $binnString[0]);
+    /**
+     * @deprecated
+     */
+    public function binnSize(): int
+    {
+        return strlen($this->binn);
+    }
 
-        if (array_key_exists($type, $this->containersClasses)) {
-            $binnContainer = new $this->containersClasses[$type]($binnString);
-            return $binnContainer->unserialize();
-        } else {
-            return null;
-        }
+    /**
+     * @deprecated
+     */
+    public function binnFree()
+    {
+        $this->binn = '';
+        $this->items = [];
+
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return $this->items;
     }
 }

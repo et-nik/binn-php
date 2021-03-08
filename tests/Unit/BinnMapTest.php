@@ -1,11 +1,11 @@
 <?php
 
+namespace Knik\Binn\Tests\Unit;
+
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Knik\Binn\BinnMap;
 
-/**
- * @covers Knik\Binn\BinnMap<extended>
- */
 class BinnMapTest extends TestCase
 {
     public function testMapList()
@@ -32,10 +32,11 @@ class BinnMapTest extends TestCase
 
         $binnString = "\xE1\x1A\x02\x00\x00\x00\x01\xA0\x03add\x00\x00\x00\x00\x02\xE0\x09\x02\x41\xCF\xC7\x40\x1A\x85";
 
-        $binn = new BinnMap($binnString);
+        $binn = new BinnMap();
+        $binn->binnOpen($binnString);
         $arr = $binn->getBinnArr();
-        $this->assertEquals([1 => 'add', 2 => [-12345, 6789]], $arr);
-        $this->assertEquals($binnString, $binn->serialize());
+        Assert::assertEquals([1 => 'add', 2 => [-12345, 6789]], $arr);
+        Assert::assertEquals($binnString, $binn->serialize());
     }
 
     public function testMapOpen()
@@ -43,14 +44,8 @@ class BinnMapTest extends TestCase
         $binnString = "\xE1\x1A\x02\x00\x00\x00\x01\xA0\x03add\x00\x00\x00\x00\x02\xE0\x09\x02\x41\xCF\xC7\x40\x1A\x85";
         $binn = new BinnMap();
         $binn->binnOpen($binnString);
-        $this->assertEquals([1 => 'add', 2 => [-12345, 6789]], $binn->unserialize());
-    }
 
-    public function testValidArray()
-    {
-        $this->assertFalse(BinnMap::validArray([0, 1, 2]));
-        $this->assertTrue(BinnMap::validArray([1 => 0, 2 => 2]));
-        $this->assertFalse(BinnMap::validArray(['key' => 'val']));
+        Assert::assertEquals([1 => 'add', 2 => [-12345, 6789]], $binn->unserialize());
     }
 
     public function testNegativeKey()
@@ -58,6 +53,9 @@ class BinnMapTest extends TestCase
         $binn = new BinnMap();
         $array = [-2 => 543, -8 => 'test'];
         $binnString = $binn->serialize($array);
-        $this->assertEquals($array, $binn->unserialize($binnString));
+
+        $result = $binn->unserialize($binnString);
+
+        Assert::assertEquals($array, $result);
     }
 }

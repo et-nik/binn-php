@@ -1,26 +1,25 @@
 <?php
 
+namespace Knik\Binn\Tests\Unit;
+
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Knik\Binn\BinnList;
 
-/**
- * @covers Knik\Binn\BinnList<extended>
- */
 class BinnListTest extends TestCase
 {
     static private $stringBinnList = "\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00";
 
+    // https://github.com/liteserver/binn/blob/master/spec.md#a-list-of-3-integers
     public function testListInt()
     {
         $binn = new BinnList();
-
-        // https://github.com/liteserver/binn/blob/master/spec.md#a-list-of-3-integers
         $binn->addUint16(123)->addInt16(-456)->addUint16(789);
 
-        $this->assertEquals("\xE0\x0B\x03\x20\x7B\x41\xFE\x38\x40\x03\x15", $binn->getBinnVal());
+        $result = $binn->getBinnVal();
 
-        // 11 bytes
-        $this->assertEquals(11, $binn->binnSize());
+        Assert::assertEquals("\xE0\x0B\x03\x20\x7B\x41\xFE\x38\x40\x03\x15", $result);
+        Assert::assertEquals(11, $binn->binnSize());
     }
 
     public function testListFloat()
@@ -30,29 +29,31 @@ class BinnListTest extends TestCase
         $binn->addFloat($float);
         $binnString = $binn->getBinnVal();
 
-        $binnRead = new BinnList($binnString);
+        $binnRead = new BinnList();
+        $binnRead->binnOpen($binnString);
         $arrRead = $binnRead->getBinnArr();
 
-        $this->assertEquals($float, $arrRead[0], '', 0.000001);
+        Assert::assertEqualsWithDelta($float, $arrRead[0], 0.000001);
 
         $double = 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000025;
         $binn = new BinnList();
         $binn->addDouble($double);
         $binnString = $binn->getBinnVal();
 
-        $binnRead = new BinnList($binnString);
+        $binnRead = new BinnList();
+        $binnRead->binnOpen($binnString);
         $arrRead = $binnRead->getBinnArr();
 
-        $this->assertEquals($double, $arrRead[0]);
+        Assert::assertEqualsWithDelta($double, $arrRead[0], 0.000001);
     }
 
     public function testListString()
     {
         $binn = new BinnList();
         $binn->addStr("Hello")->addStr(' World!');
-        $this->assertEquals(self::$stringBinnList, $binn->getBinnVal());
+        Assert::assertEquals(self::$stringBinnList, $binn->getBinnVal());
 
-        $this->assertEquals(strlen($binn->getBinnVal()), $binn->binnSize());
+        Assert::assertEquals(strlen($binn->getBinnVal()), $binn->binnSize());
     }
 
 
@@ -60,46 +61,46 @@ class BinnListTest extends TestCase
     {
         $binn = new BinnList();
         $binn->addStr("Hello");
-
         $binnSubj = new BinnList();
         $binnSubj->addStr("World");
-
         $binn->addList($binnSubj);
 
-        $this->assertEquals("\xE0\x16\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\x05World\x00", $binn->getBinnVal());
+        $result = $binn->getBinnVal();
+
+        Assert::assertEquals("\xE0\x16\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\x05World\x00", $result);
     }
 
     public function testBinnFree()
     {
         $binn = new BinnList();
-
         $binn->addUint8(123)->addInt16(-456)->addUint16(789);
-        $this->assertEquals("\xE0\x0B\x03\x20\x7B\x41\xFE\x38\x40\x03\x15", $binn->getBinnVal());
-        $this->assertEquals(11, $binn->binnSize());
+        Assert::assertEquals("\xE0\x0B\x03\x20\x7B\x41\xFE\x38\x40\x03\x15", $binn->getBinnVal());
+        Assert::assertEquals(11, $binn->binnSize());
 
         $binn->binnFree();
         $binn->addUint8(512)->addInt16(-521);
-        $this->assertEquals("\xE0\x08\x02\x20\x00\x41\xFD\xF7", $binn->getBinnVal());
-        $this->assertEquals(8, $binn->binnSize());
+
+        Assert::assertEquals("\xE0\x09\x02\x40\x02\x00\x41\xFD\xF7", $binn->getBinnVal());
+        Assert::assertEquals(9, $binn->binnSize());
     }
 
     public function testBinnOpen()
     {
         $binn = new BinnList();
         $binn->binnOpen("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00");
-        $this->assertEquals(['Hello', ' World!'], $binn->getBinnArr());
+        Assert::assertEquals(['Hello', ' World!'], $binn->getBinnArr());
 
         $binn->binnFree();
         $binn->binnOpen("\xE0\x0B\x03\x20\x7B\x41\xFE\x38\x40\x03\x15");
-        $this->assertEquals([123, -456, 789], $binn->getBinnArr());
+        Assert::assertEquals([123, -456, 789], $binn->getBinnArr());
     }
 
     public function testGetBinnArr()
     {
         $binn = new BinnList();
         $binn->addUint8(123)->addInt16(-456)->addUint16(789);
-        $this->assertEquals([123, -456, 789], $binn->getBinnArr());
-        $this->assertEquals([123, -456, 789], $binn->getBinnArr());
+        Assert::assertEquals([123, -456, 789], $binn->getBinnArr());
+        Assert::assertEquals([123, -456, 789], $binn->getBinnArr());
     }
 
     public function testBigBinn()
@@ -115,47 +116,48 @@ class BinnListTest extends TestCase
         $arr = $binn1->getBinnArr();
         $binnString = $binn1->getBinnVal();
 
-        $binn2 = new BinnList($binnString);
+        $binn2 = new BinnList();
+        $binn2->binnOpen($binnString);
         $arr2 = $binn2->getBinnArr();
 
-        $this->assertEquals($arr, $arr2);
+        Assert::assertEquals($arr, $arr2);
     }
 
     public function testUnserialize()
     {
         $binn = new BinnList();
-        $this->assertEquals(['Hello', ' World!'], $binn->unserialize("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00"));
+        Assert::assertEquals(['Hello', ' World!'], $binn->unserialize("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00"));
 
         $binn = new BinnList();
         $binn->binnOpen("\xE0\x15\x02\xA0\x05Hello\x00\xA0\x07 World!\x00");
-        $this->assertEquals(['Hello', ' World!'], $binn->unserialize());
+        Assert::assertEquals(['Hello', ' World!'], $binn->unserialize());
     }
 
     public function testSerialize()
     {
         $binn = new BinnList();
         $binnString = $binn->serialize(['Hello', ' World!']);
-        $this->assertEquals(self::$stringBinnList, $binnString);
+        Assert::assertEquals(self::$stringBinnList, $binnString);
 
         $binnString = $binn->serialize([123, -456, 789]);
-        $this->assertEquals("\xE0\x0B\x03\x20\x7B\x41\xFE\x38\x40\x03\x15", $binnString);
+        Assert::assertEquals("\xE0\x0B\x03\x20\x7B\x41\xFE\x38\x40\x03\x15", $binnString);
 
         $arrayWithFloat = [458, 5.2349, 94.005000000000000058];
         $binnString = $binn->serialize($arrayWithFloat);
         $binnArray = $binn->unserialize($binnString);
 
-        $this->assertEquals($arrayWithFloat, $binnArray);
+        Assert::assertEquals($arrayWithFloat, $binnArray);
 
         $binn2 = new BinnList();
         $binn2->addUint8(512)->addInt16(-521);
-        $this->assertEquals("\xE0\x08\x02\x20\x00\x41\xFD\xF7", $binn2->serialize());
+        Assert::assertEquals("\xE0\x09\x02\x40\x02\x00\x41\xFD\xF7", $binn2->serialize());
     }
 
     public function testSerializeBigSize()
     {
         $array = [];
         for ($i = 0; $i < 512; $i++) {
-            $array[] = rand(BinnList::INT64_MIN, BinnList::INT64_MAX);
+            $array[] = random_int(BinnList::INT64_MIN, BinnList::INT64_MAX);
         }
 
         $binn1 = new BinnList;
@@ -165,7 +167,7 @@ class BinnListTest extends TestCase
         $binn2->binnOpen($serialized);
         $unserialized = $binn2->unserialize();
 
-        $this->assertEquals($array, $unserialized);
+        Assert::assertEquals($array, $unserialized);
     }
 
     public function testSerializeList()
@@ -173,31 +175,14 @@ class BinnListTest extends TestCase
         $binn = new BinnList();
         $binnString = $binn->serialize(['Hello', ['World']]);
 
-        $this->assertEquals("\xE0\x16\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\x05World\x00", $binnString);
+        Assert::assertEquals("\xE0\x16\x02\xA0\x05Hello\x00\xE0\x0B\x01\xA0\x05World\x00", $binnString);
     }
 
-    /**
-     * @expectedException Knik\Binn\Exceptions\InvalidArrayException
-     */
-    public function testSerializeInvalid()
-    {
-        $binn = new BinnList();
-        $binn->serialize(['Hello', 'assoc_key' => 'World']);
-    }
-
-    /**
-     * @expectedException \Exception
-     */
     public function testInvalidMethod()
     {
+        $this->expectException(\Exception::class);
+
         $binn = new BinnList();
         $binn->addUnknown('azaza');
-    }
-
-    public function testValidArray()
-    {
-        $this->assertTrue(BinnList::validArray([0, 1, 2]));
-        $this->assertFalse(BinnList::validArray([1 => 0, 2 => 2]));
-        $this->assertFalse(BinnList::validArray(['key' => 'val']));
     }
 }

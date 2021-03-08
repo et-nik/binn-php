@@ -1,12 +1,12 @@
 <?php
 
+namespace Knik\Binn\Tests\Unit;
+
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use \Knik\Binn\BinnObject;
 use \Knik\Binn\Binn;
 
-/**
- * @covers Knik\Binn\BinnObject<extended>
- */
 class BinnObjectTest extends TestCase
 {
     public function testObject()
@@ -27,10 +27,11 @@ class BinnObjectTest extends TestCase
 
         $binnString = "\xE2\x11\x01\x05hello\xA0\x05world\x00";
 
-        $binn = new BinnObject($binnString);
+        $binn = new BinnObject();
+        $binn->binnOpen($binnString);
         $arr = $binn->unserialize();
-        $this->assertEquals(['hello' => 'world'], $arr);
-        $this->assertEquals($binnString, $binn->serialize());
+        Assert::assertEquals(['hello' => 'world'], $arr);
+        Assert::assertEquals($binnString, $binn->serialize());
     }
 
     public function testListObjects()
@@ -75,14 +76,7 @@ class BinnObjectTest extends TestCase
         $binn = new Binn();
 
         $arr = $binn->unserialize($binnString);
-        $this->assertEquals([ ["id" => 1, "name" => "John"], ["id" => 2, "name" => "Eric"] ], $arr);
-    }
-
-    public function testValidArray()
-    {
-        $this->assertFalse(BinnObject::validArray([0, 1, 2]));
-        $this->assertFalse(BinnObject::validArray([1 => 0, 2 => 2]));
-        $this->assertTrue(BinnObject::validArray(['key' => 'val']));
+        Assert::assertEquals([ ["id" => 1, "name" => "John"], ["id" => 2, "name" => "Eric"] ], $arr);
     }
 
     public function testObjectOpen()
@@ -91,7 +85,7 @@ class BinnObjectTest extends TestCase
 
         $binn = new BinnObject();
         $binn->binnOpen($binnString);
-        $this->assertEquals(['hello' => 'world'], $binn->unserialize());
+        Assert::assertEquals(['hello' => 'world'], $binn->unserialize());
     }
 
     public function testSerialize()
@@ -100,16 +94,7 @@ class BinnObjectTest extends TestCase
         $binn = new BinnObject();
         $serialized = $binn->serialize($array);
 
-        $this->assertEquals("\xE2\x11\x01\x05hello\xA0\x05world\x00", $serialized);
-    }
-
-    /**
-     * @expectedException Knik\Binn\Exceptions\InvalidArrayException
-     */
-    public function testSerializeInvalid()
-    {
-        $binn = new BinnObject();
-        $binn->serialize(['list', 'array']);
+        Assert::assertEquals("\xE2\x11\x01\x05hello\xA0\x05world\x00", $serialized);
     }
 
     public function testSerializeContainers()
@@ -120,6 +105,6 @@ class BinnObjectTest extends TestCase
         $serialized = $binn->serialize($array);
         $unserizlized = $binn->unserialize($serialized);
 
-        $this->assertEquals($array, $unserizlized);
+        Assert::assertEquals($array, $unserizlized);
     }
 }

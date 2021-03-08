@@ -1,32 +1,26 @@
 language: php
 
 php:
+  - nightly
+  - 8.0
   - 7.3
   - 7.2
-  - 7.1
-  - 7.0
-  - 5.6
-  - 5.5
-  - 5.4
-  - hhvm
-  
+
+env:
+  matrix:
+    - PREFER_LOWEST="--prefer-lowest"
+    - PREFER_LOWEST=""
+
 matrix:
   allow_failures:
-    - php: 5.5
-    - php: 5.4
-    - php: hhvm
-    
+    - php: nightly
+
 before_install:
   - composer self-update
 
 after_script:
     - wget https://scrutinizer-ci.com/ocular.phar
     - php ocular.phar code-coverage:upload --format=php-clover coverage.xml
-  
+
 install:
-  - |
-    if [[ "$(phpenv version-name)" < "5.6" ]]
-    then
-      travis_retry composer require --no-interaction --prefer-source 'phpunit/phpunit:^4.8'
-    fi
-  - travis_retry composer update --no-interaction --prefer-source
+  - travis_retry composer update --no-interaction --prefer-source $PREFER_LOWEST
