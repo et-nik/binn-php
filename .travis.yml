@@ -6,17 +6,17 @@ php:
   - 7.3
   - 7.2
   - 7.1
-  
+
 matrix:
   allow_failures:
     - php: nightly
-    
+
 before_install:
   - composer self-update
 
 after_script:
     - wget https://scrutinizer-ci.com/ocular.phar
     - php ocular.phar code-coverage:upload --format=php-clover coverage.xml
-  
+
 install:
   - travis_retry composer update --no-interaction --prefer-source

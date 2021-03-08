@@ -32,5 +32,4 @@ class BlobEncode implements BinnValueEncoder
     {
         return is_resource($value);
     }
-
 }
