@@ -49,7 +49,7 @@ class BinnObjectDecoder extends Decoder implements BinnValueDecoder
             $keyValue = Unpacker::unpackString(substr($bytes, $readPosition, $keySize));
             $readPosition += $keySize;
 
-            $readSize = $this->readSizeWithType(substr($bytes, $readPosition, 4));
+            $readSize = $this->readSizeWithType(substr($bytes, $readPosition, 5));
             $innerStorage = substr($bytes, $readPosition, $readSize);
 
             /** @var BinnValueDecoder $decoder */

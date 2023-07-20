@@ -47,7 +47,7 @@ class BinnMapDecoder extends Decoder implements BinnValueDecoder
             $keyValue = Unpacker::unpackInt32(substr($bytes, $readPosition, 4));
             $readPosition += 4;
 
-            $readSize = $this->readSizeWithType(substr($bytes, $readPosition, 4));
+            $readSize = $this->readSizeWithType(substr($bytes, $readPosition, 5));
             $innerStorage = substr($bytes, $readPosition, $readSize);
 
             /** @var BinnValueDecoder $decoder */
